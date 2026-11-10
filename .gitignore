@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+*.log
+
+# Configuração de assistentes de IA: nunca vai para o repositório.
+CLAUDE.md
+CLAUDE.local.md
+.claude/

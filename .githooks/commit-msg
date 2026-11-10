@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Remove os trailers que as ferramentas de IA injectam na mensagem de commit
+# (Claude Code, Cursor, Copilot). Apanha qualquer linha Co-Authored-By /
+# Made-with / Generated-by que refira um desses serviços.
+#
+# Igual ao dos repos de aplicação — é o mesmo ficheiro, de propósito: um hook
+# que divergisse entre repos seria um hook em que não se pode confiar.
+
+COMMIT_MSG_FILE="$1"
+
+sed -i '' \
+  -e '/^Co-[Aa]uthored-[Bb]y:.*noreply@anthropic\.com/d' \
+  -e '/^Co-[Aa]uthored-[Bb]y:.*cursoragent@cursor\.com/d' \
+  -e '/^Co-[Aa]uthored-[Bb]y:.*copilot/Id' \
+  -e '/^Made-with:.*/Id' \
+  -e '/^Generated-by:.*/Id' \
+  -e '/^🤖 Generated with/d' \
+  "$COMMIT_MSG_FILE"
+
+# Tira as linhas em branco que sobram depois de remover os trailers.
+perl -i -0pe 's/\n+$/\n/' "$COMMIT_MSG_FILE"
