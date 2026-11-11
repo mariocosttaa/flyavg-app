@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Bloqueia ficheiros de configuração de assistentes de IA (CLAUDE.md, .claude/).
+# Bloqueia CLAUDE.md e as definições locais do Claude. As skills em .claude/skills
+# são versionadas de propósito.
 # O .gitignore protege contra o descuido; este hook protege contra o `git add -f`.
 set -eu
 
 staged=$(git diff --cached --name-only --diff-filter=ACMR)
 [ -z "$staged" ] && exit 0
 
-maus=$(printf '%s\n' "$staged" | grep -E '(^|/)(CLAUDE\.md|CLAUDE\.local\.md|\.claude/)' || true)
+maus=$(printf '%s\n' "$staged" | grep -E '(^|/)(CLAUDE\.md|CLAUDE\.local\.md|\.claude/settings\.local\.json)' || true)
 if [ -n "$maus" ]; then
   echo ""
   echo -e "\033[0;31m✖ Estes ficheiros não podem ser commitados:\033[0m"

@@ -2,7 +2,22 @@
 node_modules/
 *.log
 
-# Configuração de assistentes de IA: nunca vai para o repositório.
+# Instruções de assistentes de IA fora do repositório: as regras vivem nas skills
+# versionadas em .claude/skills. As definições locais de cada pessoa também ficam fora.
 CLAUDE.md
 CLAUDE.local.md
-.claude/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Node / Vite
+node_modules
+dist
+coverage
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+# Playwright
+playwright-report
+test-results
