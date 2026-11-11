@@ -290,6 +290,7 @@ body {
   gap: 6px;
 }
 .airlines a {
+  white-space: nowrap;
   color: var(--muted);
   text-decoration: none;
   font: 500 13px/1 var(--font);
@@ -573,9 +574,19 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
+  /* No telemóvel o botão AVAGroup já leva ao início: o ícone sai. */
+  .top-home {
+    display: none;
+  }
+  .top {
+    justify-content: flex-start;
+  }
+  .airlines {
+    gap: 6px;
+  }
   .airlines a {
     font-size: 12px;
-    padding: 9px 12px;
+    padding: 10px 13px;
   }
   .disclaimer {
     flex: none;
@@ -591,6 +602,17 @@ body {
   }
   .cells {
     gap: 2px;
+  }
+}
+
+@media (max-width: 360px) {
+  .airlines {
+    gap: 4px;
+  }
+  .airlines a {
+    font-size: 11px;
+    padding: 9px 9px;
+    letter-spacing: 0;
   }
 }
 
