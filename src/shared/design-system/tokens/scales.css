@@ -1,0 +1,59 @@
+/*
+ * Theme-independent scales (type, spacing, radii, shadows, motion). Tailwind's defaults are
+ * reset first so only these tokens exist as utilities: no bg-red-500, no text-[17px].
+ */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+
+  --font-weight-light: 300;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-display: 3rem;
+  --text-display--line-height: 1.1;
+
+  /* 4 px base: p-1 = 4 px … p-16 = 64 px. */
+  --spacing: 0.25rem;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  --shadow-raised: 0 1px 2px var(--shadow-color), 0 1px 3px var(--shadow-color);
+  --shadow-overlay: 0 8px 24px var(--shadow-color);
+}
+
+:root {
+  --font-body: var(--font-family-sora);
+  --font-heading: var(--font-family-sora);
+  --font-code: var(--font-family-jetbrains-mono);
+
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+  }
+}

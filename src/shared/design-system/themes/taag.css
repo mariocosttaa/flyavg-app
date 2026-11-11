@@ -1,0 +1,19 @@
+/* TAAG Virtual: red accent, Kufam for display headings only. */
+:root[data-airline='taag'] {
+  --surface: var(--taag-gray-50);
+  --fg: var(--taag-brown-900);
+  --accent: var(--taag-red-600);
+  --accent-fg: var(--white);
+  --focus-ring: var(--taag-red-600);
+  --font-heading: var(--font-family-kufam);
+}
+
+/* The red on brown is ~3.5:1: valid for UI elements and large text, not body copy. */
+:root[data-airline='taag'][data-theme='dark'] {
+  --surface: var(--taag-brown-900);
+  --surface-raised: var(--taag-brown-900);
+  --fg: var(--taag-gray-50);
+  --accent: var(--taag-red-600);
+  --accent-fg: var(--white);
+  --focus-ring: var(--taag-gray-50);
+}

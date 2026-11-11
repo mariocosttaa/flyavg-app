@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+@import './tokens/primitives.css';
+@import './tokens/scales.css';
+@import './tokens/fonts.css';
+@import './themes/base.css';
+@import './themes/taag.css';
+@import './themes/world.css';
+
+/* inline: utilities reference the variables, so data-airline / data-theme re-theme at runtime. */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-danger: var(--danger);
+  --color-danger-fg: var(--danger-fg);
+  --color-focus-ring: var(--focus-ring);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+  --font-mono: var(--font-code);
+}
+
+@layer base {
+  body {
+    @apply bg-surface font-sans font-light text-fg antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-bold;
+  }
+
+  code,
+  kbd {
+    @apply font-mono font-medium;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}

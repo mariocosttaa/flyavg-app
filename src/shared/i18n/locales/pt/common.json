@@ -1,0 +1,13 @@
+{
+  "app": {
+    "name": "FlyAVG"
+  },
+  "states": {
+    "loading": "A carregar"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "body": "O endereço pedido não existe ou foi movido.",
+    "backHome": "Voltar ao início"
+  }
+}

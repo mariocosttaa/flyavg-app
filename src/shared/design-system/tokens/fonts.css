@@ -1,0 +1,29 @@
+/* Self-hosted fonts only: no third-party font CSS (CSP, privacy). */
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/Sora-300.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/Sora-500.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Sora-700.ttf') format('truetype');
+}
+
+/*
+ * TODO(AVG-5): add font files for JetBrains Mono 500 (codes) and Kufam variable (TAAG display),
+ * as woff2 in ../fonts, then declare their @font-face here. Until then they fall back.
+ */

@@ -1,0 +1,16 @@
+/* World Virtual: blue accent over the group neutrals. */
+:root[data-airline='world'] {
+  --fg: var(--world-navy-900);
+  --accent: var(--world-blue-500);
+  --accent-fg: var(--white);
+  --focus-ring: var(--world-blue-500);
+}
+
+:root[data-airline='world'][data-theme='dark'] {
+  --surface: var(--world-navy-900);
+  --surface-raised: var(--world-navy-900);
+  --fg: var(--paper-50);
+  --accent: var(--world-blue-500);
+  --accent-fg: var(--white);
+  --focus-ring: var(--paper-50);
+}

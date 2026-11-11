@@ -1,0 +1,27 @@
+/* AVAGroup group theme: used when <html> has no data-airline (landing, admin, group pages). */
+:root {
+  --surface: var(--paper-50);
+  --surface-raised: var(--white);
+  --fg: var(--navy-900);
+  --fg-muted: var(--slate-500);
+  --border: var(--sand-200);
+  --accent: var(--amber-500);
+  --accent-fg: var(--navy-900);
+  --danger: var(--red-600);
+  --danger-fg: var(--white);
+  --focus-ring: var(--amber-500);
+  --shadow-color: var(--navy-900-a12);
+}
+
+:root[data-theme='dark'] {
+  --surface: var(--navy-900);
+  --surface-raised: var(--navy-900);
+  --fg: var(--paper-50);
+  --fg-muted: var(--sand-200);
+  --border: var(--paper-50-a16);
+  --accent: var(--amber-500);
+  --accent-fg: var(--navy-900);
+  --danger: var(--red-600);
+  --danger-fg: var(--white);
+  --focus-ring: var(--amber-500);
+}
