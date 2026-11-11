@@ -147,7 +147,8 @@ via a tiny `LocationProbe` component.
 ## E2E (Playwright)
 
 Critical flows, run in CI against the built app (`vite preview`) and a test API (seeded) or
-MSW in the browser. Which backend e2e uses in CI is Decision pending (AVG-7).
+MSW in the browser. Which backend e2e uses in CI is Open (decide with the first e2e flow):
+ask the user.
 
 Critical flows to cover first:
 

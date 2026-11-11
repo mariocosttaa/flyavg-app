@@ -140,9 +140,10 @@ export function PrivateRoute() {
 - Admin `AdminRoute`: requires any admin permission. A pilot without one sees `Forbidden` with
   a link back to the portal.
 
-### Admin login (Decision pending (AVG-7))
+### Admin login (Decided (AVG-7))
 
-Proposal: admin has no login page. Its `goToLogin` does a full-page
+Admin (`/admin/` on the app domain: `dev.flyavg.com/admin/`, `app.flyavg.com/admin/`) has no
+login page; sign-in always goes through the portal. Its `goToLogin` does a full-page
 `window.location.assign("/login?redirect=/admin/…")` to the portal. After login, the portal
 uses `navigate()` for portal paths and `window.location.assign()` for `/admin/*` paths (a
 different HTML entry). Admin then boots its own session from the refresh cookie (see 009).

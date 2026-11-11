@@ -9,7 +9,7 @@ button and sharing a link. One hook parses it, one component paginates. Decision
 ## API contract
 
 Request query: `page` (1-based), `limit` (default 20, max 100), `search`, `sort`
-(`field` or `-field` for descending, to confirm in AVG-7), plus named filters.
+(`field` or `-field` for descending, comma-separated for several keys), plus named filters.
 
 Response:
 

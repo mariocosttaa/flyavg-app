@@ -106,7 +106,7 @@ export function RouteErrorBoundary({ children }: { children: ReactNode }) {
 ```
 
 `CrashScreen` shows a translated message, a "reload" button and a "go to home" link. It never
-shows the stack trace. Errors are reported to the error tracker (Decision pending (AVG-7)),
+shows the stack trace. Errors are reported to the error tracker (Open (before launch)),
 without tokens or personal data.
 
 Chunk load errors after a deploy (old `index.html` referencing removed assets) are caught by

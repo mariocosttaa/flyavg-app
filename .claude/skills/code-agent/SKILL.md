@@ -38,9 +38,11 @@ Always read `references/001-naming-and-language.md`, `references/002-repo-struct
 | Vite config, env vars, bundle size, deploy | 002, 014 |
 | Tests only | 013 |
 
-Snippets and folder layouts come only from these references. If a reference marks something
-"Decision pending (AVG-x)", follow the proposal, and say in your summary that it is still
-pending.
+Snippets and folder layouts come only from these references. "Decided (AVG-7)" marks a
+binding architecture decision: follow it as a rule. "Open (...)" marks something still
+undecided: if the task depends on it, ask the user before building something hard to undo.
+"Decision pending (AVG-5)" or "(AVG-6)" means that ticket has not settled it yet: follow the
+proposal, and say in your summary that it is still pending.
 
 ## Core rules
 

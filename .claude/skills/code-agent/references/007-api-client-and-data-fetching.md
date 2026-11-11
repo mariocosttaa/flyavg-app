@@ -3,8 +3,8 @@
 ## Purpose
 
 How the app talks to `flyavg-api`: a client generated from the API's OpenAPI document, wrapped
-in TanStack Query hooks. Decision pending (AVG-7) for the libraries; the shape below is the
-proposal.
+in TanStack Query hooks. Decided (AVG-7): `openapi-typescript` + `openapi-fetch` + TanStack
+Query, as below.
 
 ## Stack
 
@@ -25,8 +25,9 @@ hand-written response types.
 "api:types:check": "npm run api:types && git diff --exit-code src/shared/api/generated"
 ```
 
-- `OPENAPI_URL` points at the published OpenAPI of the target API version (local API in dev).
-  Where versions are fetched from (API URL vs a versioned artifact) is Decision pending (AVG-7).
+- `OPENAPI_URL` points at `openapi/openapi.json` committed in `flyavg-api`, at the API version
+  the app targets (a pinned tag or commit; a local checkout in dev). Decided (AVG-7): there is
+  no hosted copy or release artifact; the committed file is the contract.
 - `generated/` is committed and never edited by hand. Regenerate it when the API version
   changes, in the same branch that adapts the app.
 - CI runs `api:types:check` against the pinned API version, so drift fails the build.
@@ -44,14 +45,16 @@ export const api = createClient<paths>({ baseUrl: env.VITE_API_URL, fetch: authF
 ```
 
 `authFetch` adds the bearer token and handles 401 with a single refresh and one retry (see
-009). Verify at AVG-7 how the installed `openapi-fetch` version calls a custom `fetch`
+009). When the client is first written, verify how the installed `openapi-fetch` calls a custom `fetch`
 (Request object vs `(url, init)`), and clone the request before the first attempt so the body
 can be resent.
 
 ## Errors
 
-The API returns errors with a stable `code` (proposal: `{ statusCode, code, message,
-details?: [{ field, code }] }`, to confirm with the API in AVG-7).
+Decided (AVG-7): every API error has the shape `{ statusCode, code, message, details?,
+errors?, requestId }`. `details` is an object with values for the sentence; `errors` lists
+field errors as `[{ field, code, params? }]` (code `VALIDATION_FAILED`). The app translates by
+`code`. `fieldErrors` below is mapped from `errors`.
 
 ```ts
 // src/shared/api/errors.ts

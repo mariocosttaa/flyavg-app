@@ -3,7 +3,7 @@
 ## Purpose
 
 How the app signs in, keeps the session, refreshes tokens, checks permissions and signs out.
-The model is decided; endpoint names and payloads are to confirm with the API (AVG-7).
+The model is decided; endpoint names and payloads come from the API's OpenAPI document.
 
 ## Model
 
@@ -108,7 +108,8 @@ function withToken(request: Request): Request {
 - `sessionEvents.emit("expired")` makes `SessionProvider` clear the token, clear the query
   cache, show the `auth.session.expired` toast and call the entry's `goToLogin` with the
   current path (see 003).
-- Verify at AVG-7 how the installed `openapi-fetch` passes requests to a custom `fetch`.
+- When the client is first written, verify how the installed `openapi-fetch` passes requests
+  to a custom `fetch`.
 
 ## Bootstrap
 
@@ -141,9 +142,10 @@ export function useSession() {
 Public pages (landing) do not wait for the bootstrap: only guarded routes do. The public
 layout may show "Sign in" until the session resolves.
 
-Multiple tabs: rotation means two tabs may refresh at once. Use a `BroadcastChannel`
-("flyavg-session") to share logout and, if the API allows a short reuse window, coordinate
-refresh. Decision pending (AVG-7).
+Multiple tabs: rotation means two tabs may refresh at once. Decided (AVG-7): the API accepts a
+short grace window for parallel refreshes and returns the already-issued successor; reuse
+outside it revokes the family. Use a `BroadcastChannel` ("flyavg-session") to share logout and
+coordinate refresh, so tabs rarely rely on that window.
 
 ## Login and logout
 
@@ -175,8 +177,8 @@ function can(permission: Permission, scope?: Scope): boolean
 
 - CORS and cookie flags are the API's job; the app only sends `credentials: "include"` to the
   auth endpoints.
-- If the refresh cookie is `SameSite=None`, the API must protect refresh against CSRF (custom
-  header or origin check). Coordinate in AVG-7.
+- Decided (AVG-7): app and API are on the same site, so the refresh cookie is `SameSite=Strict`
+  (`path=/auth`); the API also checks `Origin` on refresh and logout.
 - Never put tokens in URLs, error reports or analytics.
 
 ## Tests

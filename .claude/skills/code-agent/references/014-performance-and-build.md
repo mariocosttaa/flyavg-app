@@ -61,10 +61,15 @@ export const env = schema.parse(import.meta.env)
 
 ### One build per environment, or runtime config
 
-Because values are baked at build time, dev/staging/prod means either one image per
-environment (build args per environment, the simple path) or one image with a runtime
-`/config.json` fetched before boot. Decision pending (AVG-7). Until decided, assume one build
-per environment.
+Decided (AVG-7): one build per environment, with build args per environment. The `VITE_*`
+variables are validated at startup (above). There is no runtime configuration (no
+`/config.json`).
+
+| Branch | Environment | App | API (`VITE_API_URL`) |
+|---|---|---|---|
+| `development` | Dev, automatic deploy | `https://dev.flyavg.com` | `https://api.dev.flyavg.com` |
+| `master` | Production, only with explicit approval | `https://app.flyavg.com` | `https://api.flyavg.com` |
+| `staging` | Later, when the branch is created | | |
 
 ## Security headers (nginx)
 
@@ -72,8 +77,8 @@ The SPA is served by nginx (Docker). Headers set there:
 
 - `Content-Security-Policy`: `default-src 'self'; script-src 'self'; style-src 'self';
   img-src 'self' data: <tiles>; connect-src 'self' <api> <tiles>; font-src 'self';
-  frame-ancestors 'none'; base-uri 'self'; form-action 'self'`. Exact sources per environment
-  in AVG-7. No `'unsafe-inline'`, no `'unsafe-eval'`.
+  frame-ancestors 'none'; base-uri 'self'; form-action 'self'`. `<api>` is the environment's
+  API (`https://api.dev.flyavg.com` or `https://api.flyavg.com`). No `'unsafe-inline'`, no `'unsafe-eval'`.
 - `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`,
   `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (deny what we do not
   use).
@@ -102,7 +107,7 @@ What this means for code:
 - Avoid layout shift: skeletons match content size; fonts use `font-display: swap` with
   metric-compatible fallbacks.
 - Targets for the portal entry on a mid-range phone: LCP < 2.5 s, INP < 200 ms, CLS < 0.1.
-  Decision pending (AVG-7) for how they are measured in CI.
+  How they are measured in CI is Open (before launch, with the metrics system).
 
 ## Prerendering public routes (phase 3)
 
@@ -115,7 +120,7 @@ SEO and social previews (Open Graph, Twitter cards). Plan for it now:
   prerender time.
 - Data for public pages should be fetchable at build time or be static content.
 - Tool choice (a Vite prerender plugin, or a small script that renders routes with
-  `react-dom/server` `prerender`) is Decision pending (AVG-7).
+  `react-dom/server` `prerender`) is Open (phase 3, landing).
 
 ## Anti-patterns
 

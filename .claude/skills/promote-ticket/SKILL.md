@@ -50,7 +50,7 @@ Auto accept covers only the hop and the ticket it was asked for.
 - **Update the local ref before pushing it.** `git push origin X:Y` sends the local `X`: run `git fetch origin X:X` first.
 - **Several repositories go up together**, in order: `flyavg-api`, then `flyavg-app`, at every hop. Never leave one repo promoted and the other behind.
 - **Never delete branches**, not even after integration.
-- **Deploys are Coolify's job.** Coolify builds each environment from its branch. After a promotion, check the deployment finished for the right commit (the `bindamy-vps` skill shows how) before saying it is live. Which branch deploys where, and whether production is automatic or approved by hand, is decided in AVG-4; until then, ask.
+- **Deploys are Coolify's job.** Coolify builds each environment from its branch. After a promotion, check the deployment finished for the right commit (the `bindamy-vps` skill shows how) before saying it is live. Decided (AVG-7): `development` deploys automatically to the dev environment (`dev.flyavg.com`, `api.dev.flyavg.com`); `master` deploys to production (`app.flyavg.com`, `api.flyavg.com`) and only moves with the user's explicit approval; `staging` comes later, when the branch is created.
 
 ## Step 0: before going up
 

@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Where every file goes, and how the portal and admin stay apart. Decision pending (AVG-7) for
-the overall layout; AVG-6 scaffolds it.
+Where every file goes, and how the portal and admin stay apart. Decided (AVG-7): this is the
+repository layout; AVG-6 scaffolds it.
 
 ## Decision: Vite multi-page build with two entries
 
@@ -48,8 +48,17 @@ portal) for unknown paths, so a deep link like `/admin/pilots` would open the po
 small dev/preview middleware plugin that rewrites `/admin/*` to `/admin/index.html`, or run
 admin e2e against the nginx image. Verify at AVG-6.
 
-Whether admin is served from `/admin/` or its own subdomain is Decision pending (AVG-7). The
-code layout is the same either way.
+Decided (AVG-7): admin is served from `/admin/` on the app's own domain, with its own build
+entry, never from a subdomain. Admin has no login page: sign-in always goes through the portal
+(003).
+
+| Environment | App (portal) | Admin | API |
+|---|---|---|---|
+| Development | `dev.flyavg.com` | `dev.flyavg.com/admin/` | `api.dev.flyavg.com` |
+| Production | `app.flyavg.com` | `app.flyavg.com/admin/` | `api.flyavg.com` |
+
+App and API are subdomains of the same site, so the refresh cookie (`sameSite: strict`) works
+(009). The current landing stays on `flyavg.com` until the new one (phase 3) replaces it.
 
 ## Tree
 
