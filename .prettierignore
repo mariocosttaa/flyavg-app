@@ -1,0 +1,11 @@
+.claude
+.githooks
+dist
+coverage
+node_modules
+playwright-report
+test-results
+package-lock.json
+src/shared/api/generated
+src/shared/design-system/fonts
+public
