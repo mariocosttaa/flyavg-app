@@ -75,7 +75,11 @@
     { flight: "AVG315", to: "OMDB", wide: [1.14, 0.16], tall: [1.25, -0.06] },
     { flight: "AVG012", to: "FNHU", wide: [0.88, 0.9], tall: [1.1, 0.22] },
   ];
-  var HUB = { wide: [0.79, 0.62], tall: [0.74, 0.085] };
+  var HUB = { code: "FNLU", label: "FNLU · LUANDA", wide: [0.79, 0.62], tall: [0.88, 0.42] };
+  // Cada sub-marca pode trazer as suas rotas em window.AVG_PAGE (page.js).
+  var PAGE = window.AVG_PAGE || {};
+  if (PAGE.routes) ROUTES = PAGE.routes;
+  if (PAGE.hub) HUB = PAGE.hub;
   // Avião visto de cima, a apontar para a direita (0 graus).
   var PLANE_D =
     "M11 0 L3 -1.6 L-1 -8 L-3 -8 L-0.6 -1.6 L-6 -1.4 L-8 -4 L-9.5 -4 L-8.4 0 L-9.5 4 L-8 4 L-6 1.4 L-0.6 1.6 L-3 8 L-1 8 L3 1.6 Z";
@@ -126,7 +130,8 @@
       class: "hub-label", x: hub[0] + (left ? -14 : 14), y: hub[1] + 4,
       "text-anchor": left ? "end" : "start",
     }, hg);
-    label.textContent = "FNLU · LUANDA";
+    // No telemóvel o cabeçalho ocupa o topo: fica só o ponto, sem o nome.
+    if (key !== "tall") label.textContent = HUB.label;
     plane = el("g", { class: "plane" }, g);
     el("path", { class: "plane-glyph", d: PLANE_D }, plane);
     if (routeEls[current]) routeEls[current].classList.add("active");
@@ -185,7 +190,7 @@
     this.show = function (i, animate) {
       var r = ROUTES[i];
       write(groups.flight, r.flight, animate, 0);
-      write(groups.from, "FNLU", animate, 80);
+      write(groups.from, HUB.code, animate, 80);
       write(groups.to, r.to, animate, 160);
       write(groups.status, copy[lang].boardSoon, animate, 240);
     };

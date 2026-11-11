@@ -1,0 +1,26 @@
+/* World Virtual: azul World (#0B2A5B) como superfície, azul claro para destaques
+   e o âmbar da linha de voo do logótipo negativo no hub. */
+:root {
+  --bg: #0b2a5b;
+  --fg: #faf6ee;
+  --muted: #9ab0d0;
+  --accent: #8fbcff;
+  --hub: #f2a93b;
+  --line: rgba(250, 246, 238, 0.14);
+  --mark: rgba(250, 246, 238, 0.05);
+  --mark-soft: rgba(250, 246, 238, 0.04);
+  --route: rgba(250, 246, 238, 0.18);
+  --route-active: rgba(143, 188, 255, 0.55);
+  --plane: #faf6ee;
+  --board-bg: rgba(8, 31, 69, 0.65);
+  --board-border: rgba(250, 246, 238, 0.14);
+  --board-muted: #9ab0d0;
+  --flap: #123a75;
+  --flap-fg: #faf6ee;
+  --flap-line: rgba(11, 42, 91, 0.9);
+  --flap-accent: #f2a93b;
+
+  --logo-offset: -0.0066;
+
+  color-scheme: dark;
+}

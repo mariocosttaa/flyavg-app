@@ -24,19 +24,34 @@
   font-display: swap;
 }
 
-/* Tokens do guia de marca (Noite e Âmbar). */
+/* Tokens semânticos. Por omissão, a marca AVAGroup (Noite e Âmbar);
+   cada sub-marca redefine-os no seu theme.css. */
 :root {
-  --noite: #0f1b2d;
-  --ambar: #f2a93b;
-  --kwanza: #ce1126;
-  --areia: #faf6ee;
-  --nevoa: #9aa3b2; /* cinzento da tagline do logótipo */
-  --linha: rgba(250, 246, 238, 0.12);
+  --bg: #0f1b2d;
+  --fg: #faf6ee;
+  --muted: #9aa3b2; /* cinzento da tagline do logótipo */
+  --accent: #f2a93b;
+  --hub: #ce1126;
+  --line: rgba(250, 246, 238, 0.12);
   --mark: rgba(250, 246, 238, 0.05);
-  --flap: #172438;
-  --flap-line: rgba(15, 27, 45, 0.85);
+  --mark-soft: rgba(250, 246, 238, 0.04);
   --route: rgba(250, 246, 238, 0.16);
+  --route-active: rgba(242, 169, 59, 0.45);
+  --plane: #faf6ee;
+  --board-bg: rgba(15, 27, 45, 0.6);
+  --board-border: rgba(250, 246, 238, 0.12);
+  --board-muted: #9aa3b2;
+  --board-radius: 10px;
+  --flap: #172438;
+  --flap-fg: #faf6ee;
+  --flap-line: rgba(15, 27, 45, 0.85);
+
+  --font: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --body-weight: 300;
+  --heading-weight: 700;
+  --heading-tracking: -0.035em;
+  --logo-offset: -0.183; /* fração da largura até à primeira letra */
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --takeoff: cubic-bezier(0.6, 0, 0.25, 1);
@@ -58,10 +73,10 @@ body {
 }
 
 body {
-  background: var(--noite);
-  color: var(--areia);
-  font-family: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-weight: 300;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-weight: var(--body-weight);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -123,11 +138,11 @@ body {
   transition-delay: calc(var(--i) * 0.12s);
 }
 .routes .route.active {
-  stroke: rgba(242, 169, 59, 0.45);
+  stroke: var(--route-active);
 }
 .routes .trail {
   fill: none;
-  stroke: var(--ambar);
+  stroke: var(--accent);
   stroke-width: 1.6;
   stroke-linecap: round;
   opacity: 0.9;
@@ -137,14 +152,14 @@ body {
   transition: opacity 0.9s var(--ease);
 }
 .routes .plane-glyph {
-  fill: var(--areia);
+  fill: var(--plane);
 }
 .routes .hub-dot {
-  fill: var(--kwanza);
+  fill: var(--hub);
 }
 .routes .hub-ring {
   fill: none;
-  stroke: var(--kwanza);
+  stroke: var(--hub);
   stroke-width: 1.2;
   transform-box: fill-box;
   transform-origin: center;
@@ -156,7 +171,7 @@ body {
 .routes .hub-label {
   font: 500 11px var(--mono);
   letter-spacing: 0.12em;
-  fill: var(--nevoa);
+  fill: var(--muted);
 }
 .routes .hub,
 .routes .plane {
@@ -185,9 +200,9 @@ body {
   gap: 14px 18px;
   margin-top: clamp(28px, 4.5vh, 48px);
   padding: 14px 16px 16px;
-  border: 1px solid var(--linha);
-  border-radius: 10px;
-  background: rgba(15, 27, 45, 0.6);
+  border: 1px solid var(--board-border);
+  border-radius: var(--board-radius);
+  background: var(--board-bg);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -201,7 +216,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--nevoa);
+  color: var(--board-muted);
 }
 .cells {
   display: flex;
@@ -216,7 +231,7 @@ body {
   border-radius: 4px;
   background: var(--flap);
   font: 500 18px/1 var(--mono);
-  color: var(--areia);
+  color: var(--flap-fg);
   overflow: hidden;
   perspective: 120px;
 }
@@ -237,7 +252,7 @@ body {
   animation: flap 0.11s ease-out;
 }
 .cells-status .cell {
-  color: var(--ambar);
+  color: var(--flap-accent, var(--accent));
 }
 @keyframes flap {
   from {
@@ -264,10 +279,45 @@ body {
   border-radius: 9px;
 }
 
+.top-home {
+  display: block;
+  border-radius: 10px;
+}
+
+/* Ligações para as companhias do grupo */
+.airlines {
+  display: flex;
+  gap: 6px;
+}
+.airlines a {
+  color: var(--muted);
+  text-decoration: none;
+  font: 500 13px/1 var(--font);
+  letter-spacing: 0.02em;
+  padding: 11px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.airlines a:hover {
+  color: var(--fg);
+  border-color: var(--muted);
+}
+.airlines a[aria-current="page"] {
+  color: var(--bg);
+  background: var(--fg);
+  border-color: var(--fg);
+}
+.airlines a:focus-visible,
+.top-home:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .lang {
   display: inline-flex;
   padding: 3px;
-  border: 1px solid var(--linha);
+  border: 1px solid var(--line);
   border-radius: 999px;
   gap: 2px;
 }
@@ -275,8 +325,8 @@ body {
   appearance: none;
   border: 0;
   background: transparent;
-  color: var(--nevoa);
-  font: 500 12px/1 "Sora", sans-serif;
+  color: var(--muted);
+  font: 500 12px/1 var(--font);
   letter-spacing: 0.14em;
   padding: 9px 14px;
   border-radius: 999px;
@@ -284,15 +334,15 @@ body {
   transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
 }
 .lang button:hover {
-  color: var(--areia);
+  color: var(--fg);
 }
 .lang button[aria-pressed="true"] {
-  background: var(--areia);
-  color: var(--noite);
+  background: var(--fg);
+  color: var(--bg);
 }
 .lang button:focus-visible,
 .contact a:focus-visible {
-  outline: 2px solid var(--ambar);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -309,13 +359,13 @@ body {
   width: var(--w);
   height: auto;
   /* Alinha o A com o texto; as faixas de velocidade ficam na margem sem tocar no bordo. */
-  margin-left: calc(var(--w) * -0.183);
+  margin-left: calc(var(--w) * var(--logo-offset));
   overflow: visible;
 }
 
 .season {
   margin: clamp(40px, 6vh, 72px) 0 0;
-  color: var(--ambar);
+  color: var(--accent);
   font-weight: 500;
   font-size: 13px;
   letter-spacing: 0.34em;
@@ -324,14 +374,21 @@ body {
 
 .heading {
   margin: 14px 0 0;
-  font-weight: 700;
+  font-family: var(--display, var(--font));
+  font-weight: var(--heading-weight);
   font-size: clamp(3.25rem, 9vw, 7.5rem);
   line-height: 0.98;
-  letter-spacing: -0.035em;
+  letter-spacing: var(--heading-tracking);
+}
+
+.heading .ha {
+  font-weight: var(--heading-a-weight, inherit);
 }
 
 .tagline {
   margin: clamp(20px, 3vh, 28px) 0 0;
+  font-family: var(--display, var(--font));
+  font-weight: var(--tagline-weight, inherit);
   font-size: clamp(1.2rem, 2.2vw, 1.75rem);
   line-height: 1.3;
   max-width: 28ch;
@@ -340,7 +397,7 @@ body {
 
 .body {
   margin: 14px 0 0;
-  color: var(--nevoa);
+  color: var(--muted);
   font-size: clamp(0.98rem, 1.2vw, 1.08rem);
   line-height: 1.6;
   max-width: 40ch;
@@ -354,12 +411,12 @@ body {
   align-items: center;
   gap: 12px 32px;
   padding: clamp(28px, 4vw, 40px) var(--gutter);
-  border-top: 1px solid var(--linha);
+  border-top: 1px solid var(--line);
   margin: 0 var(--gutter);
   padding-left: 0;
   padding-right: 0;
   font-size: 13px;
-  color: var(--nevoa);
+  color: var(--muted);
 }
 .contact {
   display: flex;
@@ -373,11 +430,11 @@ body {
   text-transform: uppercase;
 }
 .contact a {
-  color: var(--areia);
+  color: var(--fg);
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
-  background-image: linear-gradient(var(--ambar), var(--ambar));
+  background-image: linear-gradient(var(--accent), var(--accent));
   background-size: 0% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
@@ -397,7 +454,16 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--kwanza);
+  background: var(--hub);
+}
+
+.disclaimer {
+  flex: 0 0 100%;
+  order: 3;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 /* Troca de idioma */
@@ -483,7 +549,7 @@ body {
     right: -38vw;
   }
   .bg-mark path {
-    fill: rgba(250, 246, 238, 0.045);
+    fill: var(--mark-soft);
   }
 }
 
@@ -497,15 +563,22 @@ body {
     translate: none;
   }
   .bg-mark path {
-    fill: rgba(250, 246, 238, 0.04);
+    fill: var(--mark-soft);
   }
   .logo {
     --w: min(100%, 420px);
-    margin-left: calc(-1 * min(var(--w) * 0.183, var(--gutter) - 8px));
+    margin-left: calc(-1 * min(var(--w) * var(--logo-offset) * -1, var(--gutter) - 8px));
   }
   .foot {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .airlines a {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+  .disclaimer {
+    flex: none;
   }
   .board {
     display: inline-grid;
