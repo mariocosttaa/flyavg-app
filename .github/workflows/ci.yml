@@ -1,0 +1,118 @@
+# Continuous integration for flyavg-app: types, lint, format, unit tests, build (with the
+# portal/admin bundle boundary check), audit, Playwright smoke and the Docker image.
+# Every job must be green before a PR is integrated (AVG_NFR_007).
+#
+# There is no deploy step on purpose: Coolify builds and deploys each environment from
+# its branch (phase 1 decision 18): development -> development environment,
+# staging -> staging, master -> production. The legacy `main` branch is not covered.
+name: CI
+
+on:
+  pull_request:
+    branches: [development, staging, master]
+  push:
+    branches: [development, staging, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Node from .nvmrc
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint:check
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Unit tests with coverage
+        run: npm run test:cov
+
+      # `build` also runs scripts/check-bundle-boundaries.mjs: admin code must not reach
+      # the portal bundle. VITE_* values are validated at runtime, not at build time.
+      - name: Build
+        run: npm run build
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+  e2e:
+    name: Playwright smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Node from .nvmrc
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-fund
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # playwright.config.ts builds the app and serves it with `vite preview`.
+      - name: Smoke tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # Builds the production image only to catch Dockerfile breakage; Coolify builds its own
+      # with the real VITE_* build arguments of each environment.
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: false
+          tags: flyavg-app:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
