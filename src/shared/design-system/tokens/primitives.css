@@ -1,28 +1,47 @@
 /*
  * Primitive tokens: the only file with raw color values. Themes map them to semantic roles.
- * Values come from the brand kits (AVAGroup, TAAG Virtual, World Virtual).
- * Decision pending (AVG-5): full design system scales; this is the phase 1 foundation.
+ * Values come from the brand kit (brand-design/). "Derived" values mix two kit colors (sRGB)
+ * where a kit color alone fails WCAG AA in a role; the mix is noted next to each one.
  */
 :root {
   /* AVAGroup */
-  --navy-900: #0f1b2d; /* Noite */
-  --navy-900-a12: rgb(15 27 45 / 0.12);
-  --amber-500: #f2a93b; /* Âmbar */
-  --red-600: #ce1126; /* Kwanza */
-  --paper-50: #faf6ee; /* Areia */
-  --sand-200: #e4ddcf; /* Pista */
-  --slate-500: #5e6673; /* Asfalto */
-  --paper-50-a16: rgb(250 246 238 / 0.16);
+  --navy-900: #0f1b2d; /* Noite: primary */
+  --navy-800: #1d2839; /* Derived: Noite + 6% Areia, raised surfaces on dark */
+  --navy-700: #303a48; /* Derived: Noite + 14% Areia, lines on dark */
+  --amber-500: #f2a93b; /* Âmbar: brand */
+  --amber-700: #856534; /* Derived: Âmbar + 48% Noite, amber text on light surfaces */
+  --red-600: #ce1126; /* Kwanza: accent, about 3% of a page */
+  --red-300: #e4848a; /* Derived: Kwanza + 50% Areia, danger text on dark */
+  --paper-50: #faf6ee; /* Areia: background */
+  --sand-200: #e4ddcf; /* Pista: lines */
+  --slate-500: #5e6673; /* Asfalto: secondary text */
+  --slate-400: #79818f; /* Derived: Asfalto + 45% slate-300, control outlines on dark */
+  --slate-300: #9aa3b2; /* Tagline grey of the negative logos on Noite */
   --white: #ffffff;
+  --navy-900-a12: rgb(15 27 45 / 0.12);
+  --navy-900-a60: rgb(15 27 45 / 0.6);
+  --black-a40: rgb(0 0 0 / 0.4);
 
   /* TAAG Virtual */
   --taag-red-600: #e10600;
+  --taag-red-300: #e96663; /* Derived: TAAG red + 40% TAAG grey, red text on dark */
   --taag-brown-900: #1e1919;
+  --taag-brown-800: #2b2626; /* Derived: TAAG brown + 6% TAAG grey */
+  --taag-brown-700: #3c3838; /* Derived: TAAG brown + 14% TAAG grey */
+  --taag-gray-100: #dadbdd; /* Derived: TAAG grey + 12% TAAG brown, lines on light */
   --taag-gray-50: #f4f6f8;
 
   /* World Virtual */
+  --world-blue-600: #1b65c6; /* Derived: World blue + 15% World navy, blue text on Areia */
   --world-blue-500: #1e6fd9;
+  --world-blue-200: #9ab0d0; /* Tagline of the negative World logo */
   --world-navy-900: #0b2a5b;
+  --world-navy-800: #193664; /* Derived: World navy + 6% Areia */
+  --world-navy-700: #2c4770; /* Derived: World navy + 14% Areia */
+
+  /* Status: not in the brand kit. Green is the only color added outside the kit. */
+  --green-700: #1f7a4c;
+  --green-300: #86d0a6;
 
   /* Typography */
   --font-family-sora: 'Sora', ui-sans-serif, system-ui, sans-serif;

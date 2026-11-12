@@ -18,7 +18,7 @@ export default function PilotLayout() {
     <div className="flex min-h-dvh bg-surface text-fg">
       <ScrollToTop />
       <aside className="w-60 shrink-0 border-r border-border bg-surface-raised p-4">
-        <Link to={PATHS.home} className="font-display text-lg font-bold">
+        <Link to={PATHS.home} className="font-brand text-lg font-bold">
           {t('app.name')}
         </Link>
         <nav aria-label={t('navigation.main')} className="mt-6 flex flex-col gap-1">

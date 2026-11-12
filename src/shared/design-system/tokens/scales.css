@@ -1,14 +1,24 @@
 /*
- * Theme-independent scales (type, spacing, radii, shadows, motion). Tailwind's defaults are
- * reset first so only these tokens exist as utilities: no bg-red-500, no text-[17px].
+ * Theme-independent scales. Tailwind's default scales are reset first so only these tokens
+ * exist as utilities: no bg-red-500, no shadow-lg, no font-semibold.
+ * Arbitrary values (bg-[#…], p-[13px]) still compile in Tailwind v4: review rejects them.
  */
 @theme {
   --color-*: initial;
   --font-*: initial;
+  --font-weight-*: initial;
   --text-*: initial;
+  --tracking-*: initial;
+  --leading-*: initial;
   --radius-*: initial;
   --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --ease-*: initial;
+  --animate-*: initial;
 
+  /* Sora ships in 300, 500 and 700 only: light for body, medium for labels, bold for titles. */
   --font-weight-light: 300;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
@@ -27,33 +37,99 @@
   --text-2xl--line-height: 2rem;
   --text-3xl: 1.875rem;
   --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
   --text-display: 3rem;
   --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
 
-  /* 4 px base: p-1 = 4 px … p-16 = 64 px. */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  /* Spaced uppercase labels of the brand guide ("ANGOLA VIRTUAL AIRLINERS GROUP"). */
+  --tracking-label: 0.2em;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* 4 px base: p-1 = 4 px … p-16 = 64 px. Steps in use are listed in the catalog. */
   --spacing: 0.25rem;
 
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
   --radius-full: 9999px;
 
   --shadow-raised: 0 1px 2px var(--shadow-color), 0 1px 3px var(--shadow-color);
   --shadow-overlay: 0 8px 24px var(--shadow-color);
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  --animate-spin: spin 1s linear infinite;
+
+  /* Plain transition-* utilities use the tokens, so reduced motion collapses them too. */
+  --default-transition-duration: var(--duration-normal);
+  --default-transition-timing-function: var(--ease-standard);
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 :root {
-  --font-body: var(--font-family-sora);
-  --font-heading: var(--font-family-sora);
-  --font-code: var(--font-family-jetbrains-mono);
-
   --duration-fast: 120ms;
   --duration-normal: 200ms;
+  --duration-slow: 320ms;
+
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --duration-fast: 0ms;
     --duration-normal: 0ms;
+    --duration-slow: 0ms;
   }
+}
+
+@utility duration-fast {
+  transition-duration: var(--duration-fast);
+}
+
+@utility duration-normal {
+  transition-duration: var(--duration-normal);
+}
+
+@utility duration-slow {
+  transition-duration: var(--duration-slow);
+}
+
+@utility z-dropdown {
+  z-index: var(--z-dropdown);
+}
+
+@utility z-sticky {
+  z-index: var(--z-sticky);
+}
+
+@utility z-overlay {
+  z-index: var(--z-overlay);
+}
+
+@utility z-modal {
+  z-index: var(--z-modal);
+}
+
+@utility z-toast {
+  z-index: var(--z-toast);
 }

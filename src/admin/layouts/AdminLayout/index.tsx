@@ -16,7 +16,7 @@ export default function AdminLayout() {
     <div className="flex min-h-dvh flex-col bg-surface text-fg">
       <ScrollToTop />
       <header className="flex items-center justify-between gap-4 border-b border-border bg-surface-raised px-6 py-3">
-        <p className="font-display text-sm font-bold">{t('admin:layout.title')}</p>
+        <p className="font-brand text-sm font-bold">{t('admin:layout.title')}</p>
         <div className="flex items-center gap-4">
           <LanguageSwitcher />
           {/* The portal is another entry: a plain link loads it, the router cannot. */}

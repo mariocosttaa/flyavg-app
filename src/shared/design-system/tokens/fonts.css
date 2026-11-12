@@ -23,7 +23,20 @@
   src: url('../fonts/Sora-700.ttf') format('truetype');
 }
 
-/*
- * TODO(AVG-5): add font files for JetBrains Mono 500 (codes) and Kufam variable (TAAG display),
- * as woff2 in ../fonts, then declare their @font-face here. Until then they fall back.
- */
+/* Flight codes, callsigns and ICAO codes. */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/JetBrainsMono-500.woff2') format('woff2');
+}
+
+/* TAAG Virtual display headings only: its uppercase V reads as U, so never for brand names. */
+@font-face {
+  font-family: 'Kufam';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('../fonts/Kufam-var.woff2') format('woff2');
+}

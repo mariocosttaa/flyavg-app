@@ -17,7 +17,7 @@ export default function PublicLayout() {
     <div className="flex min-h-dvh flex-col bg-surface text-fg">
       <ScrollToTop />
       <header className="flex items-center justify-between gap-4 border-b border-border px-6 py-3">
-        <Link to={PATHS.home} className="font-display text-lg font-bold">
+        <Link to={PATHS.home} className="font-brand text-lg font-bold">
           {t('app.name')}
         </Link>
         <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
