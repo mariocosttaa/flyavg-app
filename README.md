@@ -1,5 +1,7 @@
 # flyavg-app
 
+[![CI](https://github.com/mariocosttaa/flyavg-app/actions/workflows/ci.yml/badge.svg?branch=development)](https://github.com/mariocosttaa/flyavg-app/actions/workflows/ci.yml)
+
 Web client for **FlyAVG**, the AVAGroup platform for **TAAG Virtual** and **World Virtual**.
 A client-side SPA built with React 19, Vite, React Router 7 (declarative mode), TypeScript
 strict, the React Compiler and Tailwind CSS v4. Data comes from `flyavg-api` (NestJS REST).
@@ -48,6 +50,19 @@ Checks, cheap to expensive: `typecheck` → `lint:check` → `format:check` → 
 Playwright options: `PLAYWRIGHT_CHANNEL=chrome` runs on the installed Chrome instead of the
 downloaded browsers (`npx playwright install chromium`); `E2E_BASE_URL=http://host:port` runs
 against an already running deployment, such as the Docker image.
+
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request and push to
+`development`, `staging` and `master`, with Node from `.nvmrc`:
+
+- **Lint, test and build:** `typecheck`, `lint:check`, `format:check`, `test:cov`, `build`
+  (with the bundle boundary check) and `npm audit --audit-level=high`.
+- **Playwright smoke:** `test:e2e` on Chromium; the report is uploaded when it fails.
+- **Docker image:** builds the production image without pushing it, to catch Dockerfile breakage.
+
+CI never deploys: Coolify builds and deploys each environment from its branch. Dependabot
+(`.github/dependabot.yml`) opens weekly npm and GitHub Actions updates against `development`.
 
 ## Structure
 
