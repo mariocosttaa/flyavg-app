@@ -1,14 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import type { Airline } from '../theme';
+import type { Airline, Appearance } from '../theme';
 import { contrastRatio, CONTRAST_REQUIREMENTS } from './contrast';
-import {
-  airlineRules,
-  APPEARANCES,
-  baseRules,
-  declaredTokens,
-  resolveToken,
-  type Appearance,
-} from './theme-tokens';
+import { airlineRules, APPEARANCES, baseRules, declaredTokens, resolveToken } from './theme-tokens';
 
 // Every airline × light/dark combination, read from the shipped CSS: WCAG AA for each token
 // pair, complete base themes, and airline dark blocks that cover their light overrides.

@@ -1,4 +1,4 @@
-import type { Airline, ResolvedTheme } from '../theme';
+import type { Airline, Appearance, ResolvedTheme } from '../theme';
 import primitivesCss from '../tokens/primitives.css?raw';
 import baseCss from '../themes/base.css?raw';
 import taagCss from '../themes/taag.css?raw';
@@ -6,11 +6,6 @@ import worldCss from '../themes/world.css?raw';
 
 // Resolves the semantic tokens of one theme from the CSS source itself, applying the same
 // cascade as the browser, so tests and the catalog check what actually ships.
-
-export interface Appearance {
-  airline: Airline | null;
-  theme: ResolvedTheme;
-}
 
 export const AIRLINES: (Airline | null)[] = [null, 'taag', 'world'];
 export const THEMES: ResolvedTheme[] = ['light', 'dark'];

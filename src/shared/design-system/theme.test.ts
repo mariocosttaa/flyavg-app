@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { applyInitialTheme, setAirline } from './theme';
+import { applyInitialTheme, applyTheme, appliedAppearance, setAirline } from './theme';
 
 // Boot-time theme attributes on <html>, resolved without inline scripts.
 describe('theme', () => {
@@ -36,5 +36,12 @@ describe('theme', () => {
     expect(document.documentElement.dataset.airline).toBe('taag');
     setAirline(null);
     expect(document.documentElement.dataset.airline).toBeUndefined();
+  });
+
+  it('reads back the applied airline and theme', () => {
+    expect(appliedAppearance()).toEqual({ airline: null, theme: 'light' });
+    applyTheme('dark');
+    setAirline('world');
+    expect(appliedAppearance()).toEqual({ airline: 'world', theme: 'dark' });
   });
 });
