@@ -1,8 +1,11 @@
+import indexCss from '../index.css?raw';
 import type { Airline, Appearance, ResolvedTheme } from '../theme';
-import primitivesCss from '../tokens/primitives.css?raw';
-import baseCss from '../themes/base.css?raw';
-import taagCss from '../themes/taag.css?raw';
-import worldCss from '../themes/world.css?raw';
+
+// Only these files may hold token rules; the other token files (@theme, @font-face) do not.
+const TOKEN_STYLESHEETS = import.meta.glob<string>(
+  ['../tokens/primitives.css', '../themes/*.css'],
+  { query: '?raw', import: 'default', eager: true },
+);
 
 // Resolves the semantic tokens of one theme from the CSS source itself, applying the same
 // cascade as the browser, so tests and the catalog check what actually ships.
@@ -23,6 +26,7 @@ export interface TokenRule {
 
 const COMMENT = /\/\*[\s\S]*?\*\//g;
 const RULE = /([^{}]+)\{([^{}]*)\}/g;
+const IMPORT = /@import '\.\/([\w/-]+\.css)';/g;
 const SELECTOR = /^:root((?:\[data-(?:airline|theme)='[a-z]+'\])*)$/;
 const ATTRIBUTE = /\[data-(airline|theme)='([a-z]+)'\]/g;
 const VARIABLE_REFERENCE = /^var\((--[\w-]+)\)$/;
@@ -34,6 +38,10 @@ function parseDeclarations(body: string): Map<string, string> {
     const separator = declaration.indexOf(':');
 
     if (separator === -1) {
+      if (declaration.trim()) {
+        throw new Error(`Unsupported declaration in theme CSS: "${declaration.trim()}"`);
+      }
+
       continue;
     }
 
@@ -63,16 +71,38 @@ function parseRule(selector: string, body: string, order: number): TokenRule {
   return rule;
 }
 
-function parseRules(sources: string[]): TokenRule[] {
+/**
+ * Flat `:root[...] { --token: value; }` rules only. Anything else (an at-rule, a nested block)
+ * throws: applying it unconditionally would let the contrast test pass on CSS that differs.
+ */
+export function parseTokenRules(sources: string[]): TokenRule[] {
   const css = sources.join('\n').replaceAll(COMMENT, '');
+  const unparsed = css.replaceAll(RULE, '').trim();
+
+  if (css.includes('@') || unparsed) {
+    throw new Error(`Unsupported CSS in theme files: "${unparsed || css.slice(css.indexOf('@'))}"`);
+  }
 
   return [...css.matchAll(RULE)].map(([, selector = '', body = ''], order) =>
     parseRule(selector, body, order),
   );
 }
 
-// Import order of index.css: primitives, then the base theme, then the airline themes.
-export const TOKEN_RULES = parseRules([primitivesCss, baseCss, taagCss, worldCss]);
+/** Token stylesheets in the order index.css imports them, which is the cascade order. */
+export function orderedTokenSources(index: string, stylesheets: Record<string, string>): string[] {
+  const imported = [...index.matchAll(IMPORT)]
+    .map(([, file = '']) => `../${file}`)
+    .filter((file) => file in stylesheets);
+  const missing = Object.keys(stylesheets).filter((file) => !imported.includes(file));
+
+  if (missing.length > 0) {
+    throw new Error(`index.css does not import ${missing.join(', ')}`);
+  }
+
+  return imported.map((file) => stylesheets[file] ?? '');
+}
+
+export const TOKEN_RULES = parseTokenRules(orderedTokenSources(indexCss, TOKEN_STYLESHEETS));
 
 function matches(rule: TokenRule, { airline, theme }: Appearance): boolean {
   const isAirlineMatch = rule.airline === undefined || rule.airline === airline;

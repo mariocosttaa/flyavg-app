@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import type { Airline, Appearance } from '../theme';
 import { contrastRatio, CONTRAST_REQUIREMENTS } from './contrast';
-import { airlineRules, APPEARANCES, baseRules, declaredTokens, resolveToken } from './theme-tokens';
+import {
+  airlineRules,
+  APPEARANCES,
+  baseRules,
+  declaredTokens,
+  orderedTokenSources,
+  parseTokenRules,
+  resolveToken,
+} from './theme-tokens';
 
 // Every airline × light/dark combination, read from the shipped CSS: WCAG AA for each token
 // pair, complete base themes, and airline dark blocks that cover their light overrides.
@@ -73,5 +81,43 @@ describe('theme tokens', () => {
         '--first',
       ),
     ).toThrow(/Circular/);
+  });
+
+  it('rejects CSS it cannot apply faithfully', () => {
+    // A media query or @supports block would otherwise be applied unconditionally.
+    expect(() =>
+      parseTokenRules(['@media (min-width: 40rem) { :root { --surface: #ffffff; } }']),
+    ).toThrow(/Unsupported CSS/);
+    expect(() => parseTokenRules([':root { --surface: #ffffff; } @layer base;'])).toThrow(
+      /Unsupported CSS/,
+    );
+    expect(() => parseTokenRules(['.card { --surface: #ffffff; }'])).toThrow(/selector/);
+    expect(() => parseTokenRules([':root { color }'])).toThrow(/declaration/);
+  });
+
+  it('applies the stylesheets in the order index.css imports them', () => {
+    const stylesheets = {
+      '../themes/base.css': ':root { --accent: #000001; }',
+      '../themes/taag.css': ':root { --accent: #000002; }',
+    };
+    const resolveAccent = (index: string) =>
+      resolveToken(
+        new Map(
+          parseTokenRules(orderedTokenSources(index, stylesheets)).flatMap((rule) => [
+            ...rule.declarations,
+          ]),
+        ),
+        '--accent',
+      );
+
+    expect(resolveAccent("@import './themes/base.css';\n@import './themes/taag.css';")).toBe(
+      '#000002',
+    );
+    expect(resolveAccent("@import './themes/taag.css';\n@import './themes/base.css';")).toBe(
+      '#000001',
+    );
+    expect(() => orderedTokenSources("@import './themes/base.css';", stylesheets)).toThrow(
+      /does not import \.\.\/themes\/taag\.css/,
+    );
   });
 });
