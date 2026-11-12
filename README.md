@@ -43,6 +43,7 @@ git config core.hooksPath .githooks
 | `format` / `format:check`          | Prettier write / check                                               |
 | `test` / `test:watch` / `test:cov` | Vitest (jsdom, Testing Library, MSW) once / watch / with coverage    |
 | `test:e2e`                         | Playwright smoke against a fresh build on `vite preview`             |
+| `api:types` / `api:types:check`    | Generate the API types from the OpenAPI document / fail when stale   |
 
 Checks, cheap to expensive: `typecheck` → `lint:check` → `format:check` → `test` → `build` →
 `test:e2e`.
@@ -64,6 +65,14 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request and push 
 CI never deploys: Coolify builds and deploys each environment from its branch. Dependabot
 (`.github/dependabot.yml`) opens weekly npm and GitHub Actions updates against `development` once `development` is the
 default branch on GitHub (today it is the legacy `main`, so Dependabot does not run yet).
+
+## API client
+
+The API contract is `openapi/openapi.json` in `flyavg-api`. `npm run api:types` reads it from an
+API checkout next to this repository (`../flyavg-api/openapi/openapi.json`, or the file in
+`OPENAPI_PATH`) and writes `src/shared/api/generated/schema.d.ts`, which is committed and never
+edited by hand. Calls go through the `openapi-fetch` client and TanStack Query hooks in
+`src/shared/api/`; errors are `ApiError`s translated by `code` (`errors` namespace).
 
 ## Structure
 
