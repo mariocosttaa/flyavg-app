@@ -3,8 +3,8 @@
 ## Purpose
 
 Every list screen (portal and admin) keeps its state in the URL, so it survives reload, back
-button and sharing a link. One hook parses it, one component paginates. Decision pending
-(first list screen) for the exact hook API: the proposal below is not built yet.
+button and sharing a link. One hook parses it, one component paginates. Open (first list
+screen) for the exact hook API: the proposal below is not built yet.
 
 ## API contract
 

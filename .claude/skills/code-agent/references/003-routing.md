@@ -24,46 +24,49 @@ mode** (`<BrowserRouter>`, `<Routes>`, `<Route>`). Import everything from `react
 
 ```tsx
 // src/portal/routes.tsx
-import { lazy } from "react"
-import { Route, Routes } from "react-router"
-import { GuestRoute, PermissionRoute, PrivateRoute } from "@/shared/auth"
-import PublicLayout from "./layouts/PublicLayout"
-import PilotLayout from "./layouts/PilotLayout"
+import { lazy } from 'react';
+import { Route, Routes } from 'react-router';
+import { GuestRoute, PrivateRoute } from '@/shared/auth';
+import { loadAuthNamespace, loadLandingNamespace, loadPilotNamespace } from './i18n';
+import PilotLayout from './layouts/PilotLayout';
+import PublicLayout from './layouts/PublicLayout';
 
-const Landing = lazy(() => import("./pages/Landing"))
-const Login = lazy(() => import("./pages/Auth/Login"))
-const ForgotPassword = lazy(() => import("./pages/Auth/ForgotPassword"))
-const Bookings = lazy(() => import("./pages/Flights/Bookings"))
-const NewBooking = lazy(() => import("./pages/Flights/Bookings/new"))
-const Logbook = lazy(() => import("./pages/Pilot/Logbook"))
-const NotFound = lazy(() => import("./pages/NotFound"))
+// Area namespaces load inside lazy(), so a page renders only when its strings exist.
+const Home = lazy(() =>
+  Promise.all([import('./pages/Home'), loadLandingNamespace()]).then(([page]) => page),
+);
+const Login = lazy(() =>
+  Promise.all([import('./pages/Auth/Login'), loadAuthNamespace()]).then(([page]) => page),
+);
+const PilotHome = lazy(() =>
+  Promise.all([import('./pages/Pilot/Home'), loadPilotNamespace()]).then(([page]) => page),
+);
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 export function PortalRoutes() {
   return (
     <Routes>
       <Route element={<PublicLayout />}>
-        <Route index element={<Landing />} />
+        <Route index element={<Home />} />
         <Route element={<GuestRoute />}>
           <Route path="login" element={<Login />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
 
       <Route element={<PrivateRoute />}>
         <Route element={<PilotLayout />}>
-          <Route path="flights/bookings" element={<Bookings />} />
-          <Route element={<PermissionRoute permission="bookings.create" />}>
-            <Route path="flights/bookings/new" element={<NewBooking />} />
-          </Route>
-          <Route path="pilot/logbook" element={<Logbook />} />
+          <Route path="pilot" element={<PilotHome />} />
         </Route>
       </Route>
-
-      <Route path="*" element={<NotFound />} />
     </Routes>
-  )
+  );
 }
 ```
+
+New pages follow the same pattern: a permission-gated page nests in
+`<Route element={<PermissionRoute permission="…" />}>` inside `PilotLayout`. Admin
+(`src/admin/routes.tsx`) nests `PrivateRoute` → `AdminRoute` → `AdminLayout` → pages and `*`.
 
 Layouts are imported statically because they are small and shared by many routes. If a layout
 grows heavy (maps later with MapLibre GL), lazy-load the heavy part inside it, not the frame.
@@ -78,6 +81,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router"
 import { AppProviders } from "@/shared/providers/AppProviders"
+import { PORTAL_AUTH_CONFIG } from "./auth-config"
 import { PortalRoutes } from "./routes"
 
 applyInitialTheme() // sets data-airline / data-theme before first paint, no inline script
@@ -85,7 +89,7 @@ applyInitialTheme() // sets data-airline / data-theme before first paint, no inl
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <AppProviders auth={portalAuthConfig}>
+      <AppProviders auth={PORTAL_AUTH_CONFIG}>
         <PortalRoutes />
       </AppProviders>
     </BrowserRouter>
