@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { reportRenderError } from '@/shared/monitoring/sentry';
 
 interface ErrorBoundaryProps {
   fallback: ReactNode;
@@ -17,8 +18,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return { hasError: true };
   }
 
-  componentDidCatch(_error: Error, _info: ErrorInfo): void {
-    // TODO(AVG-3): report to Sentry, without tokens or personal data.
+  componentDidCatch(error: Error, info: ErrorInfo): void {
+    reportRenderError(error, info.componentStack);
   }
 
   render() {
