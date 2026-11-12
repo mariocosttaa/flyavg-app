@@ -7,6 +7,8 @@ export default mergeConfig(
     test: {
       environment: 'jsdom',
       setupFiles: ['./src/test/setup.ts'],
+      // Design system CSS is read as text (?raw) by the token tests; other CSS stays stubbed.
+      css: { include: [/design-system\/(index|(tokens|themes)\/[\w-]+)\.css/] },
       include: ['src/**/*.test.{ts,tsx}'],
       // env.ts validates on import; tests get safe placeholder values.
       env: {
