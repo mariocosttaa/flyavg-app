@@ -5,9 +5,32 @@
   "states": {
     "loading": "A carregar"
   },
+  "language": {
+    "label": "Idioma",
+    "names": {
+      "pt": "Português",
+      "en": "English"
+    }
+  },
+  "navigation": {
+    "main": "Navegação principal",
+    "home": "Início",
+    "signIn": "Iniciar sessão",
+    "pilotArea": "Área do piloto",
+    "backToPortal": "Voltar ao portal"
+  },
   "notFound": {
     "title": "Página não encontrada",
     "body": "O endereço pedido não existe ou foi movido.",
     "backHome": "Voltar ao início"
+  },
+  "forbidden": {
+    "title": "Acesso negado",
+    "body": "Não tem permissão para abrir esta página."
+  },
+  "crash": {
+    "title": "Não foi possível mostrar esta página",
+    "body": "Ocorreu um erro inesperado. Recarregue a página para tentar novamente.",
+    "reload": "Recarregar"
   }
 }

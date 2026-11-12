@@ -1,6 +1,7 @@
 {
   "layout": {
-    "title": "FlyAVG Admin"
+    "title": "FlyAVG Admin",
+    "navigation": "Administration navigation"
   },
   "dashboard": {
     "title": "Administration dashboard",

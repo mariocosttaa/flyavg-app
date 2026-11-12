@@ -5,9 +5,32 @@
   "states": {
     "loading": "Loading"
   },
+  "language": {
+    "label": "Language",
+    "names": {
+      "pt": "Português",
+      "en": "English"
+    }
+  },
+  "navigation": {
+    "main": "Main navigation",
+    "home": "Home",
+    "signIn": "Sign in",
+    "pilotArea": "Pilot area",
+    "backToPortal": "Back to the portal"
+  },
   "notFound": {
     "title": "Page not found",
     "body": "The requested address does not exist or has moved.",
     "backHome": "Back to home"
+  },
+  "forbidden": {
+    "title": "Access denied",
+    "body": "You do not have permission to open this page."
+  },
+  "crash": {
+    "title": "This page could not be shown",
+    "body": "An unexpected error occurred. Reload the page to try again.",
+    "reload": "Reload"
   }
 }

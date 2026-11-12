@@ -1,6 +1,7 @@
 {
   "layout": {
-    "title": "FlyAVG Admin"
+    "title": "FlyAVG Admin",
+    "navigation": "Navegação da administração"
   },
   "dashboard": {
     "title": "Painel de administração",
