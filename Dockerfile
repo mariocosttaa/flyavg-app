@@ -5,7 +5,9 @@ FROM node:22-alpine AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+# --include=dev: Coolify passes NODE_ENV=production at build time, which would skip Vite and
+# the other build tools. The runtime image is nginx, so nothing needs pruning.
+RUN npm ci --include=dev --no-audit --no-fund
 
 COPY . .
 

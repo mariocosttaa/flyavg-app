@@ -62,7 +62,8 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request and push 
 - **Docker image:** builds the production image without pushing it, to catch Dockerfile breakage.
 
 CI never deploys: Coolify builds and deploys each environment from its branch. Dependabot
-(`.github/dependabot.yml`) opens weekly npm and GitHub Actions updates against `development`.
+(`.github/dependabot.yml`) opens weekly npm and GitHub Actions updates against `development` once `development` is the
+default branch on GitHub (today it is the legacy `main`, so Dependabot does not run yet).
 
 ## Structure
 

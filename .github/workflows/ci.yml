@@ -1,6 +1,6 @@
 # Continuous integration for flyavg-app: types, lint, format, unit tests, build (with the
 # portal/admin bundle boundary check), audit, Playwright smoke and the Docker image.
-# Every job must be green before a PR is integrated (AVG_NFR_007).
+# Every job must be green before a PR is integrated.
 #
 # There is no deploy step on purpose: Coolify builds and deploys each environment from
 # its branch (phase 1 decision 18): development -> development environment,
