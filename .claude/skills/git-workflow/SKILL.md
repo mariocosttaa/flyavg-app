@@ -4,7 +4,7 @@ description: >
   Git workflow for FlyAVG (flyavg-api and flyavg-app): branch roles and names (<type>/AVG-123),
   the ticket folder, commits (Conventional Commits in English, no trailers), rebase-only linear
   history, pull requests and their description in pt-PT. Use when creating a branch, starting a
-  ticket, committing (only when the user asks), preparing or opening a PR, rebasing, or when the
+  ticket, committing (inside the task delivery flow, or when the user asks), preparing or opening a PR, rebasing, or when the
   user mentions git, branch, commit, push, PR, merge or rebase. Promotions between long-lived
   branches are in flyavg-promote.
 ---
@@ -27,8 +27,8 @@ Read in full, in this order:
 
 ## Quick checklist
 
-- [ ] Never run `git commit` or `git push` without an explicit request from the user. Each commit and each push needs its own OK; "carry on" is not a standing authorization.
-- [ ] Work starts from `development`, on a branch named `<type>/AVG-<n>` (types: `feature`, `fix`, `chore`, `refactor`, `hotfix`). No description in the branch name.
+- [ ] Rasteia tasks follow the **task delivery flow** in `references/000-workflow.md`: task set to `em_curso` on pick-up, one subagent per task in its own worktree, review subagent and checks before delivery, then commit, push, PR and fast-forward into `development` without waiting, subtasks ticked and task `concluida`. Outside that flow, never commit or push without an explicit request.
+- [ ] Work starts from `development`, in a worktree, on a branch named `<type>/AVG-<n>` (types: `feature`, `fix`, `chore`, `refactor`, `hotfix`). No description in the branch name.
 - [ ] Right after creating the branch, create the ticket folder `AVG-<n>/` at the repo root with `requirements.md`, `plan.md`, `tasks.md`, `implementations.md`.
 - [ ] Commits in English, Conventional Commits, imperative, first line ≤ 72 characters, one logical change per commit, no trailers.
 - [ ] Rebase on `origin/development` before the PR; never merge `development` into the branch.

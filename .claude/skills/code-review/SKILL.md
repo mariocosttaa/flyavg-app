@@ -29,11 +29,11 @@ Also on request, for any branch or diff the user names.
    change), and decisions taken on purpose that a reviewer might flag.
 2. Launch one subagent (`Agent` tool, `general-purpose`) with the prompt below, filled in.
    It must not edit files, run git write commands, install packages or push.
-3. When it returns, show the user the findings in pt-PT, each with your recommendation: fix
-   now, fix in a follow-up ticket, or ignore (with the reason).
-4. Decide with the user what to fix. Apply only the agreed fixes, rerun the checks, and note
-   in the ticket folder what changed because of the review.
-5. Only then rebase, push and open the PR (`flyavg-git`), each step only when the user asks.
+3. When it returns, fix every Blocker and Should fix finding (task delivery flow in `flyavg-git`).
+   Ask the user only when a finding needs a product or scope decision; Notes may be left with a
+   reason. Rerun the checks and note design decisions in `AVG-<n>/plan.md`.
+4. Re-review only if the fixes were large.
+5. Then rebase, push, open the PR and integrate into `development` without waiting (`flyavg-git`).
    Commits may already exist on the branch (the user may ask for them earlier); the review
    covers committed and uncommitted work alike.
 

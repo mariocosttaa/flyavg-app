@@ -4,7 +4,7 @@ Rules for every commit, on any branch. The branch workflow is in `000-workflow.m
 
 ## Who commits
 
-The agent does **not** run `git commit` or `git push` unless the user explicitly asks ("commit this", "push the branch"). Otherwise it leaves the changes ready, shows `git status` and the diff, and suggests messages.
+Inside the **task delivery flow** (`000-workflow.md`), the task agent commits and pushes its own branch: Mário approved that as a standing rule. Outside it, the agent does **not** run `git commit` or `git push` unless the user explicitly asks ("commit this", "push the branch"); it leaves the changes ready, shows `git status` and the diff, and suggests messages.
 
 ## Format (Conventional Commits 1.0.0)
 

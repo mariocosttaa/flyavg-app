@@ -107,5 +107,5 @@ read-only review run with **`flyavg-app-review`**.
 - Keep list state (page, search, filters, sort) in `useState` only.
 - Call `fetch` directly in components or edit generated API files by hand.
 - Add inline `<script>` tags to the HTML or inline event handler strings.
-- Commit, push or open a PR without the user asking. Git rules are in `flyavg-git`.
+- Commit, push or open a PR outside the task delivery flow without the user asking. Git rules, including that flow, are in `flyavg-git`.
 - Copy patterns from GraphQL clients, Next.js or server components. This is a Vite SPA.

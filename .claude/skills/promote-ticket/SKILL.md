@@ -31,15 +31,15 @@ description: >
 
 | Hop | PR | Who integrates |
 |---|---|---|
-| ticket → `development` | always opened by the agent | The user, unless they asked **auto accept** for this ticket |
+| ticket → `development` | always opened by the agent | **The agent, without waiting** (standing auto accept, see below) |
 | `development` → `staging` | always opened by the agent | **Always ask.** Auto accept does not apply |
 | `staging` (or `development`) → `master` | always opened by the agent | **Always ask.** Production |
 
-Auto accept covers only the hop and the ticket it was asked for.
+**Standing auto accept (Mário, 2026-11-12).** Rasteia tasks follow the task delivery flow in `flyavg-git` (`references/000-workflow.md`): after the review subagent and all checks pass, the agent integrates the ticket into `development` without waiting. It never extends to `staging` or `master`.
 
 ## Rules for every step
 
-- **Commits and pushes only on explicit request.** Ask before each one.
+- **Commits and pushes** happen inside the task delivery flow. Outside it, ask before each one.
 - **Linear history.** Integrate only by fast-forward on the command line: `git push origin <source>:<target>`. GitHub marks the PR as merged by itself. Never the merge button, `gh pr merge`, `git merge`, squash or "Rebase and merge".
 - **Same SHAs at the end.** Promotion creates no new commits. When a promotion is done, the branches it passed through point to the same commit:
   ```bash
@@ -62,14 +62,13 @@ Auto accept covers only the hop and the ticket it was asked for.
 
 ## Step 1: PR of the ticket to `development`
 
-1. With the user's OK: `git push -u origin <type>/AVG-<n>`.
-2. Ask, then open the PR (title and pt-PT body from `flyavg-git`, `002-pr-description.md`):
+1. Push: `git push -u origin <type>/AVG-<n>`.
+2. Open the PR (title and pt-PT body from `flyavg-git`, `002-pr-description.md`):
    ```bash
    gh pr create --base development --head <type>/AVG-<n> \
      --title "<type>(AVG-<n>): <pt-PT description>" --body-file <body.md>
    ```
-3. **Without auto accept:** stop here and tell the user the PR is waiting.
-   **With auto accept for this ticket**, once checks are green:
+3. **Integrate without waiting** (standing auto accept), once the review and checks are green:
    ```bash
    git fetch origin development
    git rebase origin/development                              # only if development moved
@@ -129,7 +128,7 @@ While `staging` does not exist, the source is `development`.
 
 - Branches promoted to the same SHA (`git rev-parse`).
 - Coolify deployments finished for that SHA in every environment touched; the health check answers.
-- Move the ticket in Rasteia only if the user asks (the `rasteia` skill; read before writing).
+- Rasteia: tick the subtasks that are done and set the task to `concluida` only when all are ticked (task delivery flow in `flyavg-git`). Read before writing.
 - Do not delete the feature branch. If it looks obsolete, say so and leave it to the user.
 
 ## Hotfix
