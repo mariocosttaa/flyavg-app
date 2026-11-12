@@ -52,6 +52,16 @@
   classe do botão (`buttonVariants`) num `<Link>` de `react-router`, sem prop polimórfica `as`.
 - **Campos opcionais**: marcados com "(opcional)" traduzido; os obrigatórios não levam marca.
 
+## Para decidir na fase 2
+
+Decisões de marca para o Mário, sem alteração nesta tarefa:
+
+- **Perigo = Kwanza (#CE1126).** O guia reserva o Kwanza como acento (3% da página, um elemento
+  por ecrã); estados de erro em vários campos podem chocar com essa regra.
+- **Aviso = Âmbar.** O aviso usa a mesma cor que o acento do tema do grupo.
+- **TAAG Virtual: perigo e acento são quase o mesmo vermelho** (#CE1126 e #E10600).
+- **Informação no tema do grupo usa o azul da World Virtual** (#1E6FD9, e #1B65C6 como texto).
+
 ## Riscos
 
 - Mudar o nome dos utilitários de fonte (`font-display`) afeta os poucos sítios que já usavam

@@ -27,6 +27,16 @@
 
 ## Notas
 
+- Licenças OFL 1.1 junto das fontes (`fonts/OFL-Sora.txt`, `OFL-Kufam.txt`,
+  `OFL-JetBrainsMono.txt`), com o copyright lido da tabela `name` de cada ficheiro.
+- Diacríticos confirmados num script Playwright descartável sobre `vite preview` (Chrome):
+  `document.fonts.load()` de cada fonte e `measureText` de `ÇÃÉÕÍÚÂÊÔçãéõíúâêôà` e `→` com
+  duas fontes de recurso diferentes (serif e monospace); larguras iguais em todos os casos, ou
+  seja, os glifos vêm da própria fonte (Kufam, JetBrains Mono, Sora).
+- Os exemplos de Kufam no catálogo não têm V maiúsculo (lê-se como U).
+- O resolvedor de tokens recusa at-rules e blocos aninhados nos ficheiros de tema e lê a ordem
+  da cascata dos `@import` do `index.css`.
+
 - O Vitest só lê CSS como texto (`?raw`) quando o ficheiro está em `test.css.include`; a regra
   inclui só `index.css`, `tokens/` e `themes/` do design system.
 - O `vite.config.ts` passou a função (`mode` para o `loadEnv`); o `vitest.config.ts` chama-a.
