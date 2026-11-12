@@ -1,6 +1,7 @@
 const THEME_KEY = 'flyavg.theme'; // UI preference only: never put tokens or user data here
 
 export type ThemePreference = 'light' | 'dark' | 'system';
+export type ResolvedTheme = 'light' | 'dark';
 export type Airline = 'taag' | 'world';
 
 // Created lazily: modules must load without browser APIs (prerendering, tests).
@@ -20,7 +21,7 @@ export function applyTheme(preference: ThemePreference): void {
   document.documentElement.dataset.theme = resolveTheme(preference);
 }
 
-function resolveTheme(preference: ThemePreference): 'light' | 'dark' {
+export function resolveTheme(preference: ThemePreference): ResolvedTheme {
   if (preference !== 'system') {
     return preference;
   }

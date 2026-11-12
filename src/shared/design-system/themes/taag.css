@@ -1,19 +1,29 @@
-/* TAAG Virtual: red accent, Kufam for display headings only. */
+/*
+ * TAAG Virtual: red accent, cool grey surface in light and warm dark brown in dark, Kufam for
+ * display headings. Every token set in the light block is set again in the dark block: both
+ * blocks outrank the base dark block only by source order, so a gap would leak light values.
+ */
 :root[data-airline='taag'] {
   --surface: var(--taag-gray-50);
+  --surface-raised: var(--white);
   --fg: var(--taag-brown-900);
+  --border: var(--taag-gray-100);
   --accent: var(--taag-red-600);
   --accent-fg: var(--white);
+  --accent-text: var(--taag-red-600);
   --focus-ring: var(--taag-red-600);
-  --font-heading: var(--font-family-kufam);
+  --typeface-display: var(--font-family-kufam);
 }
 
-/* The red on brown is ~3.5:1: valid for UI elements and large text, not body copy. */
+/* The brand red on brown is 3.5:1: fine as a fill, too low as text, hence the lighter red. */
 :root[data-airline='taag'][data-theme='dark'] {
   --surface: var(--taag-brown-900);
-  --surface-raised: var(--taag-brown-900);
+  --surface-raised: var(--taag-brown-800);
   --fg: var(--taag-gray-50);
+  --border: var(--taag-brown-700);
   --accent: var(--taag-red-600);
   --accent-fg: var(--white);
-  --focus-ring: var(--taag-gray-50);
+  --accent-text: var(--taag-red-300);
+  --focus-ring: var(--taag-red-300);
+  --typeface-display: var(--font-family-kufam);
 }

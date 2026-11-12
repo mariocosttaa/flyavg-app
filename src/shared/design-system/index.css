@@ -13,15 +13,29 @@
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
+  --color-accent-text: var(--accent-text);
+  --color-focus-ring: var(--focus-ring);
   --color-danger: var(--danger);
   --color-danger-fg: var(--danger-fg);
-  --color-focus-ring: var(--focus-ring);
+  --color-danger-text: var(--danger-text);
+  --color-success: var(--success);
+  --color-success-fg: var(--success-fg);
+  --color-success-text: var(--success-text);
+  --color-warning: var(--warning);
+  --color-warning-fg: var(--warning-fg);
+  --color-warning-text: var(--warning-text);
+  --color-info: var(--info);
+  --color-info-fg: var(--info-fg);
+  --color-info-text: var(--info-text);
+  --color-backdrop: var(--backdrop);
 
-  --font-sans: var(--font-body);
-  --font-display: var(--font-heading);
-  --font-mono: var(--font-code);
+  --font-sans: var(--typeface-body);
+  --font-display: var(--typeface-display);
+  --font-brand: var(--typeface-brand);
+  --font-mono: var(--typeface-code);
 }
 
 @layer base {
@@ -29,10 +43,11 @@
     @apply bg-surface font-sans font-light text-fg antialiased;
   }
 
+  /* Sora 700 in every theme; Kufam is opt-in through font-display (TAAG display headings). */
   h1,
   h2,
   h3 {
-    @apply font-display font-bold;
+    @apply font-bold;
   }
 
   code,

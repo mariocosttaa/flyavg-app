@@ -1,16 +1,26 @@
-/* World Virtual: blue accent over the group neutrals. */
+/*
+ * World Virtual: blue accent over the group neutrals in light, World navy with light blue
+ * accents in dark. Every token set in the light block is set again in the dark block.
+ */
 :root[data-airline='world'] {
+  --surface: var(--paper-50);
+  --surface-raised: var(--white);
   --fg: var(--world-navy-900);
+  --border: var(--sand-200);
   --accent: var(--world-blue-500);
   --accent-fg: var(--white);
-  --focus-ring: var(--world-blue-500);
+  /* World blue on Areia is 4.498:1, just under AA: text uses the slightly darker blue. */
+  --accent-text: var(--world-blue-600);
+  --focus-ring: var(--world-blue-600);
 }
 
 :root[data-airline='world'][data-theme='dark'] {
   --surface: var(--world-navy-900);
-  --surface-raised: var(--world-navy-900);
+  --surface-raised: var(--world-navy-800);
   --fg: var(--paper-50);
-  --accent: var(--world-blue-500);
-  --accent-fg: var(--white);
-  --focus-ring: var(--paper-50);
+  --border: var(--world-navy-700);
+  --accent: var(--world-blue-200);
+  --accent-fg: var(--world-navy-900);
+  --accent-text: var(--world-blue-200);
+  --focus-ring: var(--world-blue-200);
 }
