@@ -26,6 +26,14 @@
 - `VITE_SENTRY_DSN` (opcional, argumento de build).
 - Antes de o definir, acrescentar a origem de ingestão do Sentry a `CSP_CONNECT_SRC`.
 
-## Para a AVG-6
+## Depois do rebase sobre a AVG-6
 
-- Ligar `createQueryClient()` a um `QueryClientProvider` nos providers das entradas.
+- `QueryClientProvider` montado no `AppProviders` (um cliente por árvore montada).
+- O `ErrorBoundary` envia as falhas de renderização ao Sentry (`reportRenderError`), que fica
+  sem efeito sem DSN ou enquanto o SDK não carregou.
+- `release` do Sentry = versão do `package.json` (importação com nome, só o campo `version`
+  entra no bundle).
+- `VITE_ERROR_TRACKING_DSN` renomeado também nas referências da skill.
+- `api:types:check` fica local: a `flyavg-api` é privada e o `GITHUB_TOKEN` do CI da app não lê
+  outro repositório. Correr no CI exige um token de leitura da API guardado como segredo.
+- Versão 0.3.0 (a AVG-6 ficou com a 0.2.0).

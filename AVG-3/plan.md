@@ -38,7 +38,7 @@ alterações ficam dentro de `src/shared/api/`, do `package.json`, dos scripts e
 ## TanStack Query
 
 - `createQueryClient()` em `src/shared/api/query-client.ts`, com os valores da skill (sem repetir
-  4xx). Ligar o `QueryClientProvider` às entradas fica para a AVG-6, que é dona dos providers.
+  4xx), montado no `AppProviders` da AVG-6.
 - `healthKeys` e `useHealth()` são a primeira chamada tipada, usada só por um teste. Não há ecrãs.
 
 ## Sentry no browser
@@ -54,4 +54,4 @@ alterações ficam dentro de `src/shared/api/`, do `package.json`, dos scripts e
 
 ## Versão
 
-Nova funcionalidade sem quebrar nada: `0.1.0` → `0.2.0`.
+Nova funcionalidade sem quebrar nada: `0.2.0` → `0.3.0` (a AVG-6 subiu para `0.2.0`).

@@ -16,4 +16,4 @@
 - [x] `createQueryClient`, `healthKeys`, `useHealth` e teste
 - [x] `VITE_SENTRY_DSN` e Sentry carregado só com DSN
 - [x] README
-- [x] Versão 0.2.0
+- [x] Versão 0.3.0
