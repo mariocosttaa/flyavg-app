@@ -2,7 +2,8 @@ import path from 'node:path';
 import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
-import { defineConfig, type Connect, type Plugin } from 'vite';
+import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite';
+import { isCatalogBuilt } from './scripts/catalog-environments.mjs';
 
 const ROOT = import.meta.dirname;
 
@@ -28,16 +29,26 @@ function adminFallback(): Plugin {
   };
 }
 
-export default defineConfig({
-  plugins: [adminFallback(), react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
-  resolve: { alias: { '@': path.resolve(ROOT, 'src') } },
-  build: {
-    manifest: true,
-    rolldownOptions: {
-      input: {
-        portal: path.resolve(ROOT, 'index.html'),
-        admin: path.resolve(ROOT, 'admin/index.html'),
+export default defineConfig(({ mode }) => {
+  // loadEnv gives process.env priority over .env files, like Vite does for the app itself.
+  const { VITE_APP_ENV } = loadEnv(mode, ROOT, 'VITE_');
+  // The catalog shows work in progress: it never ships in a production build.
+  const catalogInput: Record<string, string> = isCatalogBuilt(VITE_APP_ENV)
+    ? { catalog: path.resolve(ROOT, 'catalog/index.html') }
+    : {};
+
+  return {
+    plugins: [adminFallback(), react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
+    resolve: { alias: { '@': path.resolve(ROOT, 'src') } },
+    build: {
+      manifest: true,
+      rolldownOptions: {
+        input: {
+          portal: path.resolve(ROOT, 'index.html'),
+          admin: path.resolve(ROOT, 'admin/index.html'),
+          ...catalogInput,
+        },
       },
     },
-  },
+  };
 });

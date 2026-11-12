@@ -1,13 +1,20 @@
-// Fails the build when any file reachable from the portal entry carries admin code or strings.
+// Fails the build when any file reachable from the portal entry carries admin code or strings,
+// when the catalog reaches the portal or admin, or when the catalog is in a production build.
 // Walks the Vite manifest (static and dynamic imports) from each HTML entry.
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { loadEnv } from 'vite';
+import { isCatalogBuilt } from './catalog-environments.mjs';
 
-const DIST = path.resolve(import.meta.dirname, '../dist');
+const ROOT = path.resolve(import.meta.dirname, '..');
+const DIST = path.join(ROOT, 'dist');
 const manifest = JSON.parse(readFileSync(path.join(DIST, '.vite/manifest.json'), 'utf8'));
 
 const ADMIN_SOURCE =
   /^(admin\/index\.html|src\/admin\/|src\/shared\/i18n\/locales\/[a-z]+\/admin\.json)/;
+const CATALOG_ENTRY = 'catalog/index.html';
+const CATALOG_SOURCE =
+  /^(catalog\/index\.html|src\/catalog\/|src\/shared\/i18n\/locales\/[a-z]+\/catalog\.json)/;
 
 // Admin-only strings: minified identifiers do not survive the build, translated text does.
 const adminMarkers = ['pt', 'en'].map((language) => {
@@ -62,6 +69,25 @@ if (leakedSources.length > 0 || leakedMarkers.length > 0) {
   console.error('Admin code reached the portal bundle:', { leakedSources, leakedMarkers });
   process.exit(1);
 }
+
+// `vite build` runs in production mode; loadEnv reads the same VITE_APP_ENV the config used.
+const appEnvironment = loadEnv('production', ROOT, 'VITE_').VITE_APP_ENV;
+const isCatalogExpected = isCatalogBuilt(appEnvironment);
+const hasCatalog = CATALOG_ENTRY in manifest;
+const catalogLeaks = [...portal.sources, ...admin.sources].filter((source) =>
+  CATALOG_SOURCE.test(source),
+);
+
+if (hasCatalog !== isCatalogExpected) {
+  console.error(
+    `Catalog entry ${hasCatalog ? 'present' : 'missing'} in a VITE_APP_ENV=${appEnvironment} build.`,
+  );
+  process.exit(1);
+}
+if (catalogLeaks.length > 0) {
+  console.error('Catalog code reached the portal or admin bundle:', catalogLeaks);
+  process.exit(1);
+}
 console.log(
-  `Bundle boundaries OK: ${portal.files.size} portal files, ${admin.files.size} admin files, no admin code in portal.`,
+  `Bundle boundaries OK: ${portal.files.size} portal files, ${admin.files.size} admin files, no admin code in portal, catalog ${hasCatalog ? 'built' : 'left out'} (VITE_APP_ENV=${appEnvironment}).`,
 );

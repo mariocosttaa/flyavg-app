@@ -20,6 +20,10 @@ const NO_PORTAL = {
   group: ['@/portal', '@/portal/**', '**/portal/**'],
   message: 'Admin and shared code must not import portal code.',
 };
+const NO_CATALOG = {
+  group: ['@/catalog', '@/catalog/**', '**/catalog/**'],
+  message: 'The catalog is a separate entry left out of production builds: never import it.',
+};
 const NO_API = {
   group: ['@/shared/api', '@/shared/api/**'],
   message: 'Design system components are data-free: no API imports.',
@@ -72,19 +76,23 @@ export default defineConfig(
   },
   {
     files: ['src/portal/**/*.{ts,tsx}'],
-    rules: { 'no-restricted-imports': restrict(NO_ADMIN) },
+    rules: { 'no-restricted-imports': restrict(NO_ADMIN, NO_CATALOG) },
   },
   {
     files: ['src/admin/**/*.{ts,tsx}'],
-    rules: { 'no-restricted-imports': restrict(NO_PORTAL) },
+    rules: { 'no-restricted-imports': restrict(NO_PORTAL, NO_CATALOG) },
+  },
+  {
+    files: ['src/catalog/**/*.{ts,tsx}'],
+    rules: { 'no-restricted-imports': restrict(NO_ADMIN, NO_PORTAL, NO_API) },
   },
   {
     files: ['src/shared/**/*.{ts,tsx}'],
-    rules: { 'no-restricted-imports': restrict(NO_ADMIN, NO_PORTAL) },
+    rules: { 'no-restricted-imports': restrict(NO_ADMIN, NO_PORTAL, NO_CATALOG) },
   },
   {
     files: ['src/shared/design-system/**/*.{ts,tsx}'],
-    rules: { 'no-restricted-imports': restrict(NO_ADMIN, NO_PORTAL, NO_API) },
+    rules: { 'no-restricted-imports': restrict(NO_ADMIN, NO_PORTAL, NO_CATALOG, NO_API) },
   },
   {
     files: ['**/*.{js,mjs}'],
