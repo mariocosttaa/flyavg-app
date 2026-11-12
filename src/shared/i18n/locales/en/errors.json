@@ -1,3 +1,23 @@
 {
-  "UNKNOWN": "An unexpected error occurred. Please try again."
+  "VALIDATION_FAILED": "Some fields are not valid. Check them and try again.",
+  "BAD_REQUEST": "The request is not valid.",
+  "UNAUTHORIZED": "Sign in to continue.",
+  "FORBIDDEN": "You do not have permission for this action.",
+  "NOT_FOUND": "We could not find what you are looking for.",
+  "CONFLICT": "This could not be completed because the data changed. Refresh and try again.",
+  "PAYLOAD_TOO_LARGE": "The request is too large.",
+  "RATE_LIMITED": "Too many requests. Wait a moment and try again.",
+  "INTERNAL_ERROR": "Something went wrong on the server. Please try again later.",
+  "NETWORK_ERROR": "Could not reach the server. Check your connection and try again.",
+  "UNKNOWN_ERROR": "An unexpected error occurred. Please try again.",
+  "validation": {
+    "INVALID": "Invalid value.",
+    "UNKNOWN_FIELD": "Field not allowed.",
+    "STRING": "Must be text.",
+    "INTEGER": "Must be a whole number.",
+    "MIN": "Must be at least {{min}}.",
+    "MAX": "Must be at most {{max}}.",
+    "MAX_LENGTH": "At most {{max}} characters.",
+    "SORT_FIELD_INVALID": "Cannot sort by “{{value}}”."
+  }
 }

@@ -1,4 +1,5 @@
 export { api } from './client';
+export { errorMessageKey, fieldErrorMessageKey } from './error-messages';
 export {
   ApiError,
   NETWORK_ERROR_CODE,

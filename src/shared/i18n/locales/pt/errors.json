@@ -1,3 +1,23 @@
 {
-  "UNKNOWN": "Ocorreu um erro inesperado. Tente novamente."
+  "VALIDATION_FAILED": "Alguns campos não são válidos. Reveja-os e tente novamente.",
+  "BAD_REQUEST": "O pedido não é válido.",
+  "UNAUTHORIZED": "Inicie sessão para continuar.",
+  "FORBIDDEN": "Não tem permissão para esta ação.",
+  "NOT_FOUND": "Não foi possível encontrar o que procura.",
+  "CONFLICT": "Não foi possível concluir porque os dados mudaram entretanto. Atualize e tente novamente.",
+  "PAYLOAD_TOO_LARGE": "O pedido é demasiado grande.",
+  "RATE_LIMITED": "Demasiados pedidos. Aguarde um momento e tente novamente.",
+  "INTERNAL_ERROR": "Ocorreu um erro no servidor. Tente novamente mais tarde.",
+  "NETWORK_ERROR": "Sem ligação ao servidor. Verifique a ligação à internet e tente novamente.",
+  "UNKNOWN_ERROR": "Ocorreu um erro inesperado. Tente novamente.",
+  "validation": {
+    "INVALID": "Valor inválido.",
+    "UNKNOWN_FIELD": "Campo não permitido.",
+    "STRING": "Tem de ser texto.",
+    "INTEGER": "Tem de ser um número inteiro.",
+    "MIN": "Tem de ser pelo menos {{min}}.",
+    "MAX": "Não pode ser superior a {{max}}.",
+    "MAX_LENGTH": "Máximo de {{max}} caracteres.",
+    "SORT_FIELD_INVALID": "Não é possível ordenar por «{{value}}»."
+  }
 }
