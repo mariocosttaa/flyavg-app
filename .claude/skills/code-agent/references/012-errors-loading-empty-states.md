@@ -106,8 +106,8 @@ export function RouteErrorBoundary({ children }: { children: ReactNode }) {
 ```
 
 `CrashScreen` shows a translated message, a "reload" button and a "go to home" link. It never
-shows the stack trace. Errors are reported to the error tracker (Open (before launch)),
-without tokens or personal data.
+shows the stack trace. Errors are reported to Sentry (`@sentry/react`, Decided (AVG-7), wired
+in AVG-3, active only when `VITE_ERROR_TRACKING_DSN` is set), without tokens or personal data.
 
 Chunk load errors after a deploy (old `index.html` referencing removed assets) are caught by
 the boundary; `CrashScreen` offers a reload, which fetches the new build.
