@@ -33,4 +33,13 @@ describe('i18n config', () => {
     expect(localStorage.getItem('flyavg.language')).toBe('en');
     expect(i18n.t('states.loading')).toBe('Loading');
   });
+
+  it('types keys against pt, so an unknown key fails the typecheck', () => {
+    const adminT = i18n.getFixedT('pt', 'admin');
+
+    // @ts-expect-error -- unknown keys must not compile; if this line compiles, typing regressed.
+    expect(i18n.t('states.doesNotExist')).toBe('states.doesNotExist');
+    // @ts-expect-error -- the same holds inside a namespace other than the default.
+    expect(adminT('dashboard.doesNotExist')).toBe('dashboard.doesNotExist');
+  });
 });

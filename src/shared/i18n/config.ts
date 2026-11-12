@@ -8,7 +8,7 @@ import errorsPt from './locales/pt/errors.json';
 export const SUPPORTED_LANGUAGES = ['pt', 'en'] as const;
 export type Language = (typeof SUPPORTED_LANGUAGES)[number];
 export const DEFAULT_LANGUAGE: Language = 'pt';
-// Decision pending (AVG-6): en-GB (24-hour, day-month) vs en-US for English formatting.
+// en-GB for English: 24-hour clock and day before month, as pilots read them.
 export const INTL_LOCALE: Record<Language, string> = { pt: 'pt-PT', en: 'en-GB' };
 
 const LANGUAGE_KEY = 'flyavg.language'; // UI preference only
@@ -52,7 +52,9 @@ export function currentLanguage(): Language {
 }
 
 function syncHtmlLang(language: string): void {
-  document.documentElement.lang = isLanguage(language) ? INTL_LOCALE[language] : 'pt-PT';
+  document.documentElement.lang = isLanguage(language)
+    ? INTL_LOCALE[language]
+    : INTL_LOCALE[DEFAULT_LANGUAGE];
 }
 
 export async function initI18n(language: Language = detectLanguage()): Promise<void> {
