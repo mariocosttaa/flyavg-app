@@ -69,6 +69,14 @@ describe('PrivateRoute', () => {
     expect(currentLocation()).toBe('/login?redirect=/flights%3Fpage%3D2%26search%3Dfnc');
   });
 
+  it('keeps the hash in ?redirect=', () => {
+    const { currentLocation } = renderWithProviders(<TestRoutes />, {
+      route: '/flights?page=2#results',
+    });
+
+    expect(currentLocation()).toBe('/login?redirect=/flights%3Fpage%3D2%23results');
+  });
+
   it('shows the loading screen while the session is unknown', () => {
     renderWithProviders(<TestRoutes />, { route: '/flights', session: { status: 'loading' } });
 
@@ -124,6 +132,20 @@ describe('GuestRoute', () => {
     });
 
     expect(navigateToDocument).toHaveBeenCalledWith('/admin/pilots?page=2', 'replace');
+  });
+
+  it.each([
+    ['a query', '/admin%3Ftab%3Dpilots', '/admin?tab=pilots'],
+    ['a hash', '/admin%23pilots', '/admin#pilots'],
+  ])('loads an admin ?redirect= with %s as a new document', (_case, redirect, expected) => {
+    const { currentLocation } = renderWithProviders(<TestRoutes />, {
+      route: `/login?redirect=${redirect}`,
+      session: makeSession(),
+    });
+
+    expect(navigateToDocument).toHaveBeenCalledWith(expected, 'replace');
+    // The portal router stays put instead of routing to its own NotFound.
+    expect(currentLocation()).toBe(`/login?redirect=${redirect}`);
   });
 });
 

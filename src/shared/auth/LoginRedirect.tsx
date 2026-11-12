@@ -6,7 +6,7 @@ import { buildLoginUrl, useAuthConfig } from './auth-config';
 export function LoginRedirect() {
   const config = useAuthConfig();
   const location = useLocation();
-  const loginUrl = buildLoginUrl(config, location.pathname + location.search);
+  const loginUrl = buildLoginUrl(config, location.pathname + location.search + location.hash);
 
   if (config.hasLoginRoute) {
     return <Navigate to={loginUrl} replace />;

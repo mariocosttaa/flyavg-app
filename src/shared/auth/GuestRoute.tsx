@@ -20,9 +20,11 @@ export function GuestRoute() {
   }
 
   const destination = safeRedirect(searchParams.get('redirect'), homePath);
+  // Query and hash do not choose the entry: "/admin?tab=x" still belongs to admin.
+  const { pathname } = new URL(destination, window.location.origin);
 
   // The router cannot open another HTML entry (admin): that needs a full page load.
-  if (isOtherEntryPath(destination)) {
+  if (isOtherEntryPath(pathname)) {
     return <DocumentRedirect to={destination} shouldReplace />;
   }
 
