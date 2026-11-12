@@ -4,7 +4,7 @@
 
 Every list screen (portal and admin) keeps its state in the URL, so it survives reload, back
 button and sharing a link. One hook parses it, one component paginates. Decision pending
-(AVG-6) for the exact hook API.
+(first list screen) for the exact hook API: the proposal below is not built yet.
 
 ## API contract
 

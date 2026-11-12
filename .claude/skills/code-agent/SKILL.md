@@ -38,11 +38,11 @@ Always read `references/001-naming-and-language.md`, `references/002-repo-struct
 | Vite config, env vars, bundle size, deploy | 002, 014 |
 | Tests only | 013 |
 
-Snippets and folder layouts come only from these references. "Decided (AVG-7)" marks a
-binding architecture decision: follow it as a rule. "Open (...)" marks something still
-undecided: if the task depends on it, ask the user before building something hard to undo.
-"Decision pending (AVG-5)" or "(AVG-6)" means that ticket has not settled it yet: follow the
-proposal, and say in your summary that it is still pending.
+Snippets and folder layouts come only from these references. "Decided (AVG-n)" marks a
+binding decision (architecture in AVG-7, router and i18n base in AVG-6): follow it as a rule.
+"Open (...)" marks something still undecided: if the task depends on it, ask the user before
+building something hard to undo. "Decision pending (<ticket>)" means that ticket has not
+settled it yet: follow the proposal, and say in your summary that it is still pending.
 
 ## Core rules
 
@@ -79,15 +79,16 @@ proposal, and say in your summary that it is still pending.
 Run them in this order and stop at the first failure. Fix, then restart from that step.
 
 ```bash
-npm run typecheck      # tsc -b --noEmit
-npm run lint           # eslint, includes portal/admin import boundaries
+npm run typecheck      # tsc -b
+npm run lint:check     # eslint --max-warnings 0, includes portal/admin import boundaries
+npm run format:check   # prettier --check
 npm run test           # vitest run (unit + component, MSW)
-npm run build          # vite build, both entries
-npm run test:e2e       # playwright, when the change touches a critical flow
+npm run build          # vite build, both entries, then the bundle boundary check
+PLAYWRIGHT_CHANNEL=chrome npm run test:e2e   # when the change touches a critical flow
 ```
 
-Script names are a proposal until AVG-6 scaffolds the repo (Decision pending (AVG-6)). If a
-script is missing, run the underlying tool and say so.
+Decided (AVG-6): these are the scripts. `npm run lint` and `npm run format` fix in place;
+`npm run test:cov` reports coverage.
 
 Before handing over: all of the above green, no new warnings, both locales updated, and a
 read-only review run with **`flyavg-app-review`**.

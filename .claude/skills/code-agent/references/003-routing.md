@@ -4,7 +4,7 @@
 
 How routes, layouts, guards and lazy loading fit together. React Router 7 in **declarative
 mode** (`<BrowserRouter>`, `<Routes>`, `<Route>`). Import everything from `react-router`, never
-`react-router-dom`. Decision pending (AVG-6) for the router skeleton.
+`react-router-dom` (lint blocks it). Decided (AVG-6): the skeleton below is in place.
 
 ## Rules
 
@@ -117,37 +117,52 @@ export default function PilotLayout() {
 
 ## Guards
 
-Guards live in `src/shared/auth/` and must not import either entry. Each entry passes its own
-paths through an `AuthConfigProvider` (`loginUrl`, `homePath`), set in its `main.tsx`. All
-guards share one loading screen (`BootScreen` from the design system), not a copy each.
+Decided (AVG-6). Guards live in `src/shared/auth/` (barrel `@/shared/auth`) and must not import
+either entry. Each entry passes an `AuthConfig` to `AppProviders` in its `main.tsx`
+(`src/<entry>/auth-config.ts`): `basename`, `homePath`, `loginPath`, `hasLoginRoute`,
+`isOtherEntryPath`. All guards share one loading screen (`LoadingScreen` in
+`src/shared/components/`, over the design system `BootScreen`).
 
 ```tsx
 // src/shared/auth/PrivateRoute.tsx
 export function PrivateRoute() {
-  const { status } = useSession()
-  const { goToLogin } = useAuthConfig()
-  const location = useLocation()
+  const { status } = useSession();
 
-  if (status === "loading") return <BootScreen />
-  if (status === "guest") return goToLogin(location.pathname + location.search)
-  return <Outlet />
+  if (status === 'loading') {
+    return <LoadingScreen />;
+  }
+
+  if (status === 'guest') {
+    return <LoginRedirect />; // buildLoginUrl(config, pathname + search)
+  }
+
+  return <Outlet />;
 }
 ```
 
-- `GuestRoute`: signed-in users go to `safeRedirect(searchParams.get("redirect"), homePath)`.
-- `PermissionRoute`: checks `can(permission, scope?)` from the session (see 009). Without the
-  permission it renders the `Forbidden` page in place, it does not redirect.
-- Admin `AdminRoute`: requires any admin permission. A pilot without one sees `Forbidden` with
-  a link back to the portal.
+- `GuestRoute`: signed-in users go to `safeRedirect(searchParams.get("redirect"), homePath)`;
+  a destination where `isOtherEntryPath()` is true (`/admin/*` from the portal) is loaded with
+  `DocumentRedirect` (`window.location.replace`), never `<Navigate>`.
+- `PermissionRoute permission scope? fallback?`: checks `can(permission, scope?)` (see 009).
+  Without the permission it renders `fallback` or the shared `Forbidden` in place; it never
+  redirects. A guest goes to the login.
+- `AdminRoute`: `PermissionRoute` on `ADMIN_ACCESS_PERMISSION` with `<Forbidden hasPortalExit />`
+  (a plain `<a href="/">`: `<Link to="/">` would resolve to `/admin/`). The permission name is
+  a placeholder until the roles matrix (AVG-34).
+- Until sign-in exists, `SessionProvider` is a **stub**: no API calls, always a guest unless a
+  test passes `session` (see 013). Never add a fake login or a backdoor to switch it at runtime.
 
 ### Admin login (Decided (AVG-7))
 
 Admin (`/admin/` on the app domain: `dev.flyavg.com/admin/`, `app.flyavg.com/admin/`) has no
-login page; sign-in always goes through the portal. Its `goToLogin` does a full-page
-`window.location.assign("/login?redirect=/admin/…")` to the portal. After login, the portal
+login page; sign-in always goes through the portal. Its config has `hasLoginRoute: false`, so
+`LoginRedirect` does a full-page `window.location.assign("/login?redirect=/admin/…")` through
+`navigateToDocument` (`src/shared/lib/document-navigation.ts`). Inside `basename="/admin"` the
+router's pathname has no prefix, so `buildLoginUrl` prepends `basename`. Slashes in `redirect`
+stay readable; `?`, `&` and the rest are percent-encoded. After login, the portal
 uses `navigate()` for portal paths and `window.location.assign()` for `/admin/*` paths (a
 different HTML entry). Admin then boots its own session from the refresh cookie (see 009).
-The portal `goToLogin` returns `<Navigate to="/login?redirect=…" replace />`.
+In the portal, `LoginRedirect` returns `<Navigate to="/login?redirect=…" replace />`.
 
 ## Safe redirect after login
 

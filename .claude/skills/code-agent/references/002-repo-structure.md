@@ -3,7 +3,7 @@
 ## Purpose
 
 Where every file goes, and how the portal and admin stay apart. Decided (AVG-7): this is the
-repository layout; AVG-6 scaffolds it.
+repository layout, scaffolded in AVG-1 and AVG-6.
 
 ## Decision: Vite multi-page build with two entries
 
@@ -23,7 +23,7 @@ export default defineConfig({
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   resolve: { alias: { "@": path.resolve(__dirname, "src") } },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         portal: path.resolve(__dirname, "index.html"),
         admin: path.resolve(__dirname, "admin/index.html"),
@@ -33,7 +33,8 @@ export default defineConfig({
 })
 ```
 
-The exact React Compiler plugin wiring follows the Vite plugin version installed at AVG-6.
+Decided (AVG-6): the React Compiler runs through `@rolldown/plugin-babel` with
+`reactCompilerPreset()` from `@vitejs/plugin-react` 6, as above (Vite 8, Rolldown).
 
 The admin entry lives under `/admin/`. Its router uses `basename="/admin"`. nginx needs a
 second SPA fallback:
@@ -45,8 +46,9 @@ location /       { try_files $uri $uri/ /index.html; }
 
 In `vite dev` and `vite preview` the history fallback serves the root `index.html` (the
 portal) for unknown paths, so a deep link like `/admin/pilots` would open the portal. Add a
-small dev/preview middleware plugin that rewrites `/admin/*` to `/admin/index.html`, or run
-admin e2e against the nginx image. Verify at AVG-6.
+small dev/preview middleware plugin that rewrites `/admin/*` to `/admin/index.html`.
+Decided (AVG-6): `adminFallback()` in `vite.config.ts` does this; the e2e smoke test checks
+that an admin deep link boots the admin entry.
 
 Decided (AVG-7): admin is served from `/admin/` on the app's own domain, with its own build
 entry, never from a subdomain. Admin has no login page: sign-in always goes through the portal

@@ -3,7 +3,7 @@
 ## Purpose
 
 What to test, with which tool, and where the files go. Unit tests and e2e of critical flows are
-mandatory and run in CI. Decision pending (AVG-6) for the exact config.
+mandatory and run in CI. Decided (AVG-6): the config below is in place.
 
 ## Stack
 
@@ -70,7 +70,8 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 ```
 
-Coverage thresholds are Decision pending (AVG-6); start by reporting, then enforce.
+Decided (AVG-6): coverage is reported only (`npm run test:cov`), no thresholds yet; add them
+once the first product screens land.
 
 ## MSW handlers use the generated types
 
@@ -118,9 +119,14 @@ describe("Bookings page", () => {
 })
 ```
 
-`renderWithProviders` wraps `MemoryRouter`, a fresh `QueryClient` (retries off), i18n (`pt`),
-`ToastProvider` and a fake session. The `router.search()` helper reads the current location
-via a tiny `LocationProbe` component.
+`renderWithProviders(ui, { route, basename, auth, session })` (`src/test/render.tsx`) wraps
+`MemoryRouter` and `AppProviders` (auth config + session); i18n (`pt`) is initialised in
+`setup.ts`. `session` switches the stub session (`makeSession(grants)` from
+`src/test/factories/session.ts`, `{ status: "loading" }`, or guest by default); `auth` takes the
+entry's config (`PORTAL_AUTH_CONFIG`, `ADMIN_AUTH_CONFIG`). The result's `currentLocation()`
+reads the router location through `LocationProbe`, to assert redirects. Full page loads are
+asserted by `vi.mock("@/shared/lib/document-navigation")`. QueryClient and ToastProvider join
+the helper when they exist.
 
 ## Principles
 

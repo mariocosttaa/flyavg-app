@@ -106,7 +106,7 @@ function withToken(request: Request): Request {
 
 - Exactly one retry per request. A second 401 means the session is gone.
 - `sessionEvents.emit("expired")` makes `SessionProvider` clear the token, clear the query
-  cache, show the `auth.session.expired` toast and call the entry's `goToLogin` with the
+  cache, show the `auth.session.expired` toast and send the user to the login (`buildLoginUrl`, 003) with the
   current path (see 003).
 - When the client is first written, verify how the installed `openapi-fetch` passes requests
   to a custom `fetch`.
@@ -154,7 +154,7 @@ coordinate refresh, so tabs rarely rely on that window.
   with `replace` for portal paths, `window.location.replace` for `/admin/*` (another entry,
   see 003).
 - Logout: `POST /auth/logout` (credentials included) → `tokenStore.set(null)` →
-  `queryClient.clear()` → `goToLogin()` from the entry's auth config. Clear local state even if the request fails.
+  `queryClient.clear()` → the login, built with `buildLoginUrl` from the entry's auth config (003). Clear local state even if the request fails.
 
 ## Permissions
 

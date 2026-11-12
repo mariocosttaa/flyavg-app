@@ -36,8 +36,7 @@ export type BookingValues = z.infer<typeof bookingSchema>
 
 Validation keys live in the `common` namespace (`common:validation.required`). Parameters such
 as `max` are passed by the `Field` when it knows them; keep messages generic otherwise. Check
-the zod major version installed at AVG-6 for the exact API (`z.iso.datetime` vs
-`z.string().datetime`).
+zod 4 is installed: use `z.iso.datetime()` (not `z.string().datetime()`).
 
 ## Canonical form
 
@@ -125,8 +124,9 @@ export function applyServerErrors<T extends FieldValues>(error: unknown, setErro
    by default).
 5. Edit forms load data with the query hook, then `reset(data)` once; show the page skeleton
    until then.
-6. Warn before leaving a dirty form (`useBlocker` is data-mode only; use a `beforeunload`
-   listener and a confirm on in-app cancel). Decision pending (AVG-6).
+6. Warn before leaving a dirty form. Decided (AVG-6): the router is in declarative mode, so
+   `useBlocker` is not available; use a `beforeunload` listener while dirty and a confirm on
+   in-app cancel.
 7. Dates and numbers: inputs handle the locale; values sent to the API are ISO strings and
    plain numbers (see 011).
 
