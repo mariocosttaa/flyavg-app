@@ -8,8 +8,10 @@ import { applyInitialTheme } from '@/shared/design-system/theme';
 import { initI18n } from '@/shared/i18n/config';
 import { AppProviders } from '@/shared/providers/AppProviders';
 import { PORTAL_AUTH_CONFIG } from './auth-config';
+import { initErrorTracking } from '@/shared/monitoring/sentry';
 import { PortalRoutes } from './routes';
 
+void initErrorTracking(); // no-op without VITE_SENTRY_DSN; does not delay the first paint
 applyInitialTheme(); // sets data-theme before first paint, no inline script
 await initI18n();
 

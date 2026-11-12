@@ -76,7 +76,7 @@ default branch on GitHub (today it is the legacy `main`, so Dependabot does not 
 │   ├── shared/
 │   │   ├── design-system/         tokens/, themes/, components/, fonts/, theme.ts, index.css
 │   │   ├── i18n/                  config.ts, typed keys, locales/{pt,en}/<namespace>.json
-│   │   ├── api/                   Typed fetch base and ApiError (OpenAPI client later)
+│   │   ├── api/                   Generated OpenAPI client, ApiError, query hooks
 │   │   ├── auth/, hooks/, lib/    Session types, generic hooks, helpers (env validation)
 │   └── test/                      Vitest setup, MSW server and handlers, render helper
 ├── e2e/tests/                     Playwright specs
@@ -103,12 +103,12 @@ code, `git-workflow` for branches and commits).
 Variables are read and validated with zod at startup (`src/shared/lib/env.ts`). Vite inlines
 them at build time, so they are public: never put secrets in `VITE_*`.
 
-| Variable                  | Required | Description                              |
-| ------------------------- | -------- | ---------------------------------------- |
-| `VITE_API_URL`            | yes      | Base URL of `flyavg-api`                 |
-| `VITE_APP_ENV`            | yes      | `development`, `staging` or `production` |
-| `VITE_SITE_URL`           | yes      | Public URL of this app                   |
-| `VITE_ERROR_TRACKING_DSN` | no       | Error tracking DSN                       |
+| Variable          | Required | Description                              |
+| ----------------- | -------- | ---------------------------------------- |
+| `VITE_API_URL`    | yes      | Base URL of `flyavg-api`                 |
+| `VITE_APP_ENV`    | yes      | `development`, `staging` or `production` |
+| `VITE_SITE_URL`   | yes      | Public URL of this app                   |
+| `VITE_SENTRY_DSN` | no       | Sentry DSN; Sentry is off without it     |
 
 ## Docker
 

@@ -6,7 +6,7 @@ const schema = z.object({
   VITE_APP_ENV: z.enum(['development', 'staging', 'production']),
   VITE_SITE_URL: z.url(),
   // An empty value in .env means "not configured".
-  VITE_ERROR_TRACKING_DSN: z
+  VITE_SENTRY_DSN: z
     .string()
     .optional()
     .transform((value) => value || undefined),

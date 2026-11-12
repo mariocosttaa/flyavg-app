@@ -4,7 +4,7 @@ interface ImportMetaEnvironment {
   readonly VITE_API_URL: string;
   readonly VITE_APP_ENV: 'development' | 'staging' | 'production';
   readonly VITE_SITE_URL: string;
-  readonly VITE_ERROR_TRACKING_DSN?: string;
+  readonly VITE_SENTRY_DSN?: string;
 }
 
 interface ImportMeta {

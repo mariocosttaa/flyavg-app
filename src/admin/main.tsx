@@ -8,10 +8,12 @@ import { applyInitialTheme } from '@/shared/design-system/theme';
 import { initI18n } from '@/shared/i18n/config';
 import { AppProviders } from '@/shared/providers/AppProviders';
 import { ADMIN_AUTH_CONFIG } from './auth-config';
+import { initErrorTracking } from '@/shared/monitoring/sentry';
 import { loadAdminNamespace } from './i18n';
 import { BASENAME } from './paths';
 import { AdminRoutes } from './routes';
 
+void initErrorTracking(); // no-op without VITE_SENTRY_DSN; does not delay the first paint
 applyInitialTheme(); // sets data-theme before first paint, no inline script
 await initI18n();
 // The admin frame itself is translated, so its namespace loads before the first render.

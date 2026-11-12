@@ -10,9 +10,9 @@ describe('parseEnvironment', () => {
   };
 
   it('accepts a complete environment and treats an empty DSN as unset', () => {
-    expect(parseEnvironment({ ...valid, VITE_ERROR_TRACKING_DSN: '' })).toEqual({
+    expect(parseEnvironment({ ...valid, VITE_SENTRY_DSN: '' })).toEqual({
       ...valid,
-      VITE_ERROR_TRACKING_DSN: undefined,
+      VITE_SENTRY_DSN: undefined,
     });
   });
 

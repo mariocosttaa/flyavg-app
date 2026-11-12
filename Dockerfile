@@ -16,11 +16,11 @@ COPY . .
 ARG VITE_API_URL=http://localhost:3000
 ARG VITE_APP_ENV=production
 ARG VITE_SITE_URL=http://localhost:8080
-ARG VITE_ERROR_TRACKING_DSN=
+ARG VITE_SENTRY_DSN=
 ENV VITE_API_URL=$VITE_API_URL \
     VITE_APP_ENV=$VITE_APP_ENV \
     VITE_SITE_URL=$VITE_SITE_URL \
-    VITE_ERROR_TRACKING_DSN=$VITE_ERROR_TRACKING_DSN
+    VITE_SENTRY_DSN=$VITE_SENTRY_DSN
 
 # The build also runs the portal/admin bundle boundary check; the manifest is not served.
 RUN npm run build && rm -rf dist/.vite
