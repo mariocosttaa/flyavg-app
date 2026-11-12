@@ -74,6 +74,11 @@ API checkout next to this repository (`../flyavg-api/openapi/openapi.json`, or t
 edited by hand. Calls go through the `openapi-fetch` client and TanStack Query hooks in
 `src/shared/api/`; errors are `ApiError`s translated by `code` (`errors` namespace).
 
+`npm run api:types:check` fails when the generated file is stale. It is local-only for now: CI
+does not run it because `flyavg-api` is private and the workflow's `GITHUB_TOKEN` cannot read
+another repository. Running it in CI needs a read-only token for `flyavg-api` stored as a secret.
+Run it before committing whenever the API contract changes.
+
 ## Structure
 
 ```text

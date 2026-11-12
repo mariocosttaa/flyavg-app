@@ -47,7 +47,7 @@ const schema = z.object({
   VITE_API_URL: z.url(),
   VITE_APP_ENV: z.enum(["development", "staging", "production"]),
   VITE_SITE_URL: z.url(),
-  VITE_ERROR_TRACKING_DSN: z.string().optional(),
+  VITE_SENTRY_DSN: z.string().optional(),
 })
 
 // Fail fast at startup with a clear message instead of broken requests later.
