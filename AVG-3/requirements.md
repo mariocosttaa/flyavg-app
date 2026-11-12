@@ -42,3 +42,11 @@ requestId }`; a app traduz pelo `code`.
   `npm run openapi:check` falha quando o ficheiro está desatualizado.
 - Sentry só é inicializado com `SENTRY_DSN`; o filtro envia apenas erros 5xx.
 - Os registos levam o id do pedido e escondem cabeçalhos de autenticação, cookies e segredos.
+
+## Critérios de aceitação da app
+
+- `npm run api:types` gera os tipos a partir do `openapi.json` da API e `npm run api:types:check`
+  falha quando o ficheiro gerado está desatualizado.
+- Todas as chamadas passam pelo cliente `openapi-fetch` gerado; os erros chegam como `ApiError`
+  com o `code` da API e são traduzidos por esse código, em pt e en.
+- O Sentry do browser só é carregado com `VITE_SENTRY_DSN`.
