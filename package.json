@@ -18,7 +18,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "api:types": "node scripts/generate-api-types.mjs",
+    "api:types:check": "node scripts/generate-api-types.mjs --check"
   },
   "dependencies": {
     "@sentry/react": "^11.12.0",
