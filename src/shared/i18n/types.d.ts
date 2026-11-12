@@ -1,5 +1,6 @@
 import type admin from './locales/pt/admin.json';
 import type auth from './locales/pt/auth.json';
+import type catalog from './locales/pt/catalog.json';
 import type common from './locales/pt/common.json';
 import type errors from './locales/pt/errors.json';
 import type landing from './locales/pt/landing.json';
@@ -12,6 +13,7 @@ declare module 'i18next' {
     resources: {
       admin: typeof admin;
       auth: typeof auth;
+      catalog: typeof catalog;
       common: typeof common;
       errors: typeof errors;
       landing: typeof landing;

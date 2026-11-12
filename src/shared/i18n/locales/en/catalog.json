@@ -1,0 +1,92 @@
+{
+  "title": "Design system catalog",
+  "intro": "Color, typography, spacing, radius, shadow and motion tokens. Pick an airline and a mode to see each theme.",
+  "appearance": {
+    "airline": "Airline",
+    "theme": "Mode",
+    "airlines": {
+      "group": "Group",
+      "taag": "TAAG Virtual",
+      "world": "World Virtual"
+    },
+    "themes": {
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "colors": {
+    "title": "Colors",
+    "description": "Semantic tokens of the chosen theme. Components use only these names, never color values.",
+    "surfaces": "Surfaces, lines and focus",
+    "text": "Text on surfaces",
+    "fills": "Fills with their text",
+    "sample": "Aa"
+  },
+  "contrast": {
+    "title": "Contrast",
+    "description": "Token pairs of the chosen theme. Text needs 4.5:1; the focus ring and control outlines need 3:1 (WCAG 2.2 AA).",
+    "foreground": "Foreground",
+    "background": "Background",
+    "ratio": "Contrast",
+    "minimum": "Minimum",
+    "result": "Result",
+    "ratioValue": "{{value}}:1",
+    "pass": "Pass",
+    "fail": "Fail"
+  },
+  "typography": {
+    "title": "Typography",
+    "scale": "Scale",
+    "families": "Families",
+    "weights": "Weights",
+    "sample": "Flying with an Angolan soul since 2007.",
+    "displaySample": "Flying with an Angolan soul",
+    "codeSample": "AVG003 FNLU → LPPT",
+    "labelSample": "Spaced label",
+    "familyNames": {
+      "sans": "Text: Sora",
+      "display": "Display headings: Kufam in TAAG Virtual, Sora in the other themes",
+      "brand": "Brand names: always Sora",
+      "mono": "Flight codes: JetBrains Mono"
+    },
+    "weightNames": {
+      "light": "Light (300): body text and highlights",
+      "medium": "Medium (500): spaced labels",
+      "bold": "Bold (700): headings"
+    },
+    "labelTracking": "Spaced label (tracking-label), uppercase and medium weight"
+  },
+  "spacing": {
+    "title": "Spacing",
+    "description": "4 px base: p-1 is 4 px. Use only these steps.",
+    "value": "{{pixels}} px"
+  },
+  "radius": {
+    "title": "Radii"
+  },
+  "shadow": {
+    "title": "Shadows",
+    "raised": "Raised: cards and surfaces over the background",
+    "overlay": "Overlay: menus, dialogs and toasts"
+  },
+  "motion": {
+    "title": "Motion and layers",
+    "description": "With reduced motion set in the system, every duration becomes 0 ms.",
+    "durations": "Durations",
+    "easings": "Easings",
+    "layers": "Layers",
+    "usage": {
+      "durationFast": "Hover, focus and small changes",
+      "durationNormal": "State changes and default transitions",
+      "durationSlow": "Panels and dialogs entering",
+      "easeStandard": "Movement within the screen",
+      "easeEnter": "Elements entering",
+      "easeExit": "Elements leaving",
+      "zDropdown": "Menus and dropdown lists",
+      "zSticky": "Sticky headers",
+      "zOverlay": "Dialog backdrop",
+      "zModal": "Dialogs",
+      "zToast": "Toasts"
+    }
+  }
+}

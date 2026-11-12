@@ -1,0 +1,92 @@
+{
+  "title": "Catálogo do design system",
+  "intro": "Tokens de cor, tipografia, espaçamento, raios, sombras e movimento. Escolha a companhia e o modo para ver cada tema.",
+  "appearance": {
+    "airline": "Companhia",
+    "theme": "Modo",
+    "airlines": {
+      "group": "Grupo",
+      "taag": "TAAG Virtual",
+      "world": "World Virtual"
+    },
+    "themes": {
+      "light": "Claro",
+      "dark": "Escuro"
+    }
+  },
+  "colors": {
+    "title": "Cores",
+    "description": "Tokens semânticos do tema escolhido. Os componentes usam só estes nomes, nunca valores de cor.",
+    "surfaces": "Superfícies, linhas e foco",
+    "text": "Texto sobre superfícies",
+    "fills": "Preenchimentos com o seu texto",
+    "sample": "Aa"
+  },
+  "contrast": {
+    "title": "Contraste",
+    "description": "Pares de tokens do tema escolhido. O texto precisa de 4,5:1 e o anel de foco e os contornos de controlos precisam de 3:1 (WCAG 2.2 AA).",
+    "foreground": "Primeiro plano",
+    "background": "Fundo",
+    "ratio": "Contraste",
+    "minimum": "Mínimo",
+    "result": "Resultado",
+    "ratioValue": "{{value}}:1",
+    "pass": "Cumpre",
+    "fail": "Não cumpre"
+  },
+  "typography": {
+    "title": "Tipografia",
+    "scale": "Escala",
+    "families": "Famílias",
+    "weights": "Pesos",
+    "sample": "Voar com alma angolana desde 2007.",
+    "displaySample": "Voar com alma angolana",
+    "codeSample": "AVG003 FNLU → LPPT",
+    "labelSample": "Etiqueta espaçada",
+    "familyNames": {
+      "sans": "Texto: Sora",
+      "display": "Títulos de destaque: Kufam na TAAG Virtual, Sora nos outros temas",
+      "brand": "Nomes de marca: sempre Sora",
+      "mono": "Códigos de voo: JetBrains Mono"
+    },
+    "weightNames": {
+      "light": "Leve (300): texto corrido e destaques",
+      "medium": "Médio (500): etiquetas espaçadas",
+      "bold": "Negrito (700): títulos"
+    },
+    "labelTracking": "Etiqueta espaçada (tracking-label), em maiúsculas e peso médio"
+  },
+  "spacing": {
+    "title": "Espaçamento",
+    "description": "Base de 4 px: p-1 corresponde a 4 px. Use só estes passos.",
+    "value": "{{pixels}} px"
+  },
+  "radius": {
+    "title": "Raios"
+  },
+  "shadow": {
+    "title": "Sombras",
+    "raised": "Elevada: cartões e superfícies sobre o fundo",
+    "overlay": "Sobreposta: menus, diálogos e avisos"
+  },
+  "motion": {
+    "title": "Movimento e camadas",
+    "description": "Com movimento reduzido no sistema, todas as durações passam a 0 ms.",
+    "durations": "Durações",
+    "easings": "Curvas",
+    "layers": "Camadas",
+    "usage": {
+      "durationFast": "Hover, foco e pequenas mudanças",
+      "durationNormal": "Mudanças de estado e transições por omissão",
+      "durationSlow": "Entrada de painéis e diálogos",
+      "easeStandard": "Movimentos dentro do ecrã",
+      "easeEnter": "Elementos que entram",
+      "easeExit": "Elementos que saem",
+      "zDropdown": "Menus e listas suspensas",
+      "zSticky": "Cabeçalhos fixos",
+      "zOverlay": "Fundo de diálogos",
+      "zModal": "Diálogos",
+      "zToast": "Avisos temporários"
+    }
+  }
+}
