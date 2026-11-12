@@ -51,8 +51,11 @@ Before creating a new branch, check `development` for a leftover ticket folder f
 
 The folder is working material and must not survive on `development` after the merge. It is removed in its own `chore` commit on `development`, never on a feature branch:
 
+Run it where `development` is checked out: the main checkout (not a task worktree, where `git checkout development` fails because the branch is in use elsewhere):
+
 ```bash
-git checkout development && git pull --ff-only origin development
+cd <repo>                         # main checkout, on development
+git pull --ff-only origin development
 git rm -r AVG-<n>
 git commit -m "chore(AVG-<n>): remove ticket folder after merge"
 git push origin development

@@ -107,15 +107,15 @@ The airline comes from the signed-in pilot's airline (session) or from the publi
 shown (`/taag`, `/world`). A `ThemeProvider` exposes `usePreferences()` with
 `setTheme` / `setAirline`; components never touch `document` directly.
 
-## Styling approach: Tailwind v4 mapped to CSS variables (proposal)
+## Styling approach: Tailwind v4 mapped to CSS variables
 
 | Option | For | Against |
 |---|---|---|
 | **Tailwind v4 `@theme` over CSS variables** | One utility vocabulary, tokens are the only allowed values, no CSS file per component, fast to build screens from mockups | Long class strings; needs a variant helper |
 | CSS Modules + variables | Plain CSS, scoped by default | More files, easy to drift from tokens, slower to iterate |
 
-Proposal: **Tailwind v4**, with the default palette and scales removed so only our tokens
-exist. Decision pending (AVG-5).
+Decided (AVG-7): **Tailwind v4**, with the default palette and scales removed so only our
+tokens exist. AVG-5 verifies it in the build and closes the remaining token details.
 
 ```css
 /* src/shared/design-system/index.css */

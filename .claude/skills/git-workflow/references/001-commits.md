@@ -38,7 +38,7 @@ Never leave loose "wip", "fix typo" or "address review" commits in what goes up:
 
 ## Version bump
 
-When a ticket changes behaviour, its last commit bumps `version` in that repo's `package.json` with SemVer (major: incompatible change; minor: new behaviour; patch: fix). Propose the number to the user. In flyavg-api the version also stamps the published OpenAPI document. Commit: `chore(AVG-<n>): bump version to <x.y.z>`.
+When a ticket changes behaviour, its last commit bumps `version` in that repo's `package.json` with SemVer (major: incompatible change; minor: new behaviour; patch: fix). Pick the number and state it in the summary (inside the task delivery flow there is no need to wait for an answer). In flyavg-api the version also stamps the published OpenAPI document. Commit: `chore(AVG-<n>): bump version to <x.y.z>`.
 
 ## No trailers (inviolable)
 

@@ -89,6 +89,6 @@ The subagent replies in English; translate for the user when presenting.
 ## Rules
 
 - One review per ticket at the end, plus a short re-review only if the fixes were large.
-- The reviewer never fixes; the main session fixes after agreement.
+- The reviewer never fixes; the task agent fixes Blocker and Should fix findings without waiting, and asks only for product or scope decisions.
 - Findings about other repos (API contract, error codes) become a request to the API's agent
   through the user, never edits in `flyavg-api`.

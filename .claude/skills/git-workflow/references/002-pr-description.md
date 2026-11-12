@@ -38,7 +38,7 @@ Narrative paragraphs under functional headings, ready to paste.
 
 ## Opening the PR
 
-Ask before opening it, then:
+Inside the task delivery flow (`000-workflow.md`), open it without asking; outside it, ask first:
 
 ```bash
 gh pr create --base development --head <type>/AVG-<n> \

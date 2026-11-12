@@ -3,7 +3,7 @@ name: flyavg-promote
 description: >
   Moves a FlyAVG ticket up the chain <type>/AVG-123 → development → staging → master, in
   flyavg-api and flyavg-app: pre-flight checks, the PR to development (integrated by the agent
-  only on "auto accept"), removing the ticket folder on development, and the promotion PRs to
+  under the task delivery flow, a standing auto accept), removing the ticket folder on development, and the promotion PRs to
   staging and master, always fast-forwarded on the command line and always asking before
   staging or master. Use when the user says promote, ship, release, "abrir PR", "subir",
   "passar para staging/master", "auto aceitar", "fechar o ticket" or "remover a pasta".
@@ -54,7 +54,7 @@ description: >
 
 ## Step 0: before going up
 
-1. **Version.** If the ticket changes behaviour, bump `version` in `package.json` as the ticket's last commit (`flyavg-git`, `001-commits.md`). Propose the number.
+1. **Version.** If the ticket changes behaviour, bump `version` in `package.json` as the ticket's last commit (`flyavg-git`, `001-commits.md`). State the chosen number in the summary.
 2. **Rebase on `development`:** `git fetch origin && git rebase origin/development`. Never merge the other way.
 3. **Local checks, all green.** The exact scripts are in the repo's code skill; at least lint, typecheck, unit tests, e2e of the touched flows, build and `npm audit --audit-level=high`.
 4. **Review.** The repo's review skill ran and its findings are fixed or explicitly accepted by the user.
@@ -81,8 +81,11 @@ description: >
 
 ## Step 2: remove the ticket folder, on `development`
 
+Run it where `development` is checked out: the main checkout (not a task worktree, where `git checkout development` fails because the branch is in use elsewhere):
+
 ```bash
-git checkout development && git pull --ff-only origin development
+cd <repo>                         # main checkout, on development
+git pull --ff-only origin development
 git rm -r AVG-<n>
 git commit -m "chore(AVG-<n>): remove ticket folder after merge"
 git push origin development
