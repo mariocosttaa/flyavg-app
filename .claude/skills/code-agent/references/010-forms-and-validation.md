@@ -110,8 +110,8 @@ export function applyServerErrors<T extends FieldValues>(error: unknown, setErro
 
 - Renders `<label>`, the control, optional hint and the translated error.
 - Wires `id`, `htmlFor`, `aria-describedby` (hint + error) and `aria-invalid`.
-- Marks optional fields with a translated "(optional)" rather than marking required with `*`.
-  Decision pending (AVG-5).
+- Marks optional fields with a translated "(optional)" (`common`) rather than marking required
+  with `*`. Decided (AVG-5); the visual treatment comes from the phase 2 mockups.
 
 ## Behaviour rules
 

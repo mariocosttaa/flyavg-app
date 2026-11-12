@@ -89,7 +89,10 @@ export default function Bookings() {
 }
 ```
 
-The `Button as="link"` API is a proposal for the design system (Decision pending (AVG-5)).
+Decided (AVG-5): the design system stays router-free, so there is no polymorphic
+`Button as="link"`. A link that looks like a button is a `react-router` `<Link>` with the
+button's classes: `<Link to="new" className={buttonVariants({ variant: "primary" })}>`.
+The final variant names come from the phase 2 mockups; the example above is a sketch.
 
 ## Parts
 

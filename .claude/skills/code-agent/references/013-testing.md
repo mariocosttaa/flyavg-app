@@ -14,6 +14,7 @@ mandatory and run in CI. Decided (AVG-6): the config below is in place.
 | @testing-library/react + user-event + jest-dom | Render, interact like a user, matchers |
 | MSW (Mock Service Worker) | Mocks the API at the network level, for tests and optional dev |
 | Playwright | E2E in real browsers, Page Object Model |
+| axe-core | Accessibility rules in component tests, through `accessibilityViolations()` in `src/test/axe.ts` (AVG-5) |
 
 ## Where tests live
 

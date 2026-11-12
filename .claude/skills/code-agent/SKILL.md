@@ -39,7 +39,8 @@ Always read `references/001-naming-and-language.md`, `references/002-repo-struct
 | Tests only | 013 |
 
 Snippets and folder layouts come only from these references. "Decided (AVG-n)" marks a
-binding decision (architecture in AVG-7, router and i18n base in AVG-6): follow it as a rule.
+binding decision (architecture in AVG-7, router and i18n base in AVG-6, design system
+foundations in AVG-5): follow it as a rule.
 "Open (...)" marks something still undecided: if the task depends on it, ask the user before
 building something hard to undo. "Decision pending (<ticket>)" means that ticket has not
 settled it yet: follow the proposal, and say in your summary that it is still pending.

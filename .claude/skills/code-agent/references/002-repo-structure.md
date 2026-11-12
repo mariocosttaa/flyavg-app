@@ -108,7 +108,7 @@ flyavg-app/
 │   │   ├── hooks/              Generic hooks (use-list-params, use-debounced-value…)
 │   │   ├── lib/                Pure helpers (format, url, env)
 │   │   └── providers/          AppProviders (QueryClient, i18n, theme, toasts)
-│   ├── catalog/                Component catalog entry (phase 2, published on staging)
+│   ├── catalog/                Component catalog entry (development and staging builds only)
 │   └── test/                   setup.ts, MSW handlers, factories, render helpers
 ├── e2e/                        Playwright: tests/, pages/ (POM), fixtures/
 ├── deploy/nginx/               Dockerfile + nginx.conf
@@ -117,7 +117,10 @@ flyavg-app/
 └── eslint.config.js
 ```
 
-`src/catalog/` would be a third Vite entry built only for staging. Decision pending (AVG-5).
+Decided (AVG-5): `src/catalog/` (with `catalog/index.html`) is a third Vite entry, built only
+when `VITE_APP_ENV` is `development` or `staging` and served at `/catalog/`. Nothing imports
+it (lint), and the bundle check fails if it is in a production build or reaches the portal or
+admin graphs. See 006.
 
 ## What goes where
 

@@ -3,8 +3,24 @@
 ## Purpose
 
 Rules for the own component library in `src/shared/design-system/components/`: anatomy,
-variants, accessibility and the catalog. Phase 2 builds it from validated mockups. Decision
-pending (AVG-5) for the variant helper and the catalog tooling.
+variants, accessibility and the catalog. Phase 2 builds it from validated mockups. Decided
+(AVG-5): the structure, the helpers and the catalog tooling below.
+
+## Structure (Decided (AVG-5))
+
+```text
+src/shared/design-system/
+├── tokens/            primitives.css, scales.css, fonts.css (005)
+├── themes/            base.css, taag.css, world.css (005)
+├── fonts/             Self-hosted font files
+├── lib/               Own helpers: cx.ts, variants.ts (phase 2), contrast.ts, theme-tokens.ts
+├── components/        One folder per component, re-exported by components/index.ts
+├── theme.ts           Theme attribute helpers (005)
+└── index.css          Tailwind, tokens, themes and base styles
+```
+
+`lib/contrast.ts` and `lib/theme-tokens.ts` serve tests and the catalog only; production code
+does not import them.
 
 ## No external component libraries
 
@@ -56,8 +72,9 @@ export function Button({ variant, size, density, loading, disabled, className, t
 }
 ```
 
-`cx` (class join) and `variants` (variant map) are small own helpers in
-`design-system/lib/`, or `clsx` + `cva` if the owner prefers. React 19 passes `ref` as a normal prop: no `forwardRef`. Props extend the native element's
+Decided (AVG-5): `cx` (class join) and `variants` (variant map) are own helpers in
+`design-system/lib/`, no `clsx` or `cva` (no new runtime dependency). `cx` exists; `variants`
+is written with the first component that has variants (phase 2), with its test. React 19 passes `ref` as a normal prop: no `forwardRef`. Props extend the native element's
 attributes so `aria-*`, `onClick`, `form` and friends pass through.
 
 ```ts
@@ -100,7 +117,10 @@ Design system components receive text via props (already translated) or use only
 8. Target size: at least 24×24 CSS px; 44×44 for primary touch targets.
 
 Each component test includes at least one role-based query and one keyboard interaction.
-`vitest-axe` (or `jest-axe`) runs on each catalog story in CI. Decision pending (AVG-5).
+Decided (AVG-5): accessibility checks use `axe-core` directly through
+`accessibilityViolations(container)` from `src/test/axe.ts` (no `vitest-axe`: unmaintained
+since 2022). Each component test and each catalog page test asserts it returns `[]`. axe's
+contrast rule is off in jsdom (no layout); contrast is covered by the theme token tests (005).
 
 ## Density for admin
 
@@ -114,7 +134,21 @@ provided through a `DensityProvider` set by `AdminLayout`. No forked "AdminTable
 - The catalog is published on staging. A new component enters the catalog **before** a screen
   uses it. Screens follow the platform template; a screen that needs something new adds it to
   the catalog first.
-- Tooling (own Vite entry `src/catalog/` vs Storybook/Ladle) is Decision pending (AVG-5).
+- Decided (AVG-5): the catalog is an **own Vite entry**, not Storybook or Ladle:
+  `catalog/index.html` + `src/catalog/`, served at `/catalog/`. It is built only when
+  `VITE_APP_ENV` is `development` or `staging` (`scripts/catalog-environments.mjs`, shared by
+  `vite.config.ts` and the bundle check); an unset value counts as production. The bundle
+  check fails if the catalog is in a production build or if its code reaches the portal or
+  admin graphs, and lint forbids importing `@/catalog` from portal, admin or shared code.
+- Layout: `src/catalog/main.tsx` (boot: CSS, theme, i18n, the `catalog` namespace),
+  `src/catalog/pages/<Page>/index.tsx` with `parts/`, like the entries (004). Today there is
+  one page, `pages/Tokens/`. Phase 2 adds `pages/Components/<Component>/` per component and a
+  small router when there is more than one page.
+- Every catalog string goes through the `catalog` i18n namespace (pt and en). Catalog-only
+  pieces (theme controls, swatches) stay in the catalog's `parts/`, never in the design
+  system.
+- The catalog switches airline and light/dark live through the `theme.ts` helpers. Theme
+  selectors are `:root[...]`, so themes are previewed one at a time, not side by side.
 
 ## Rules
 

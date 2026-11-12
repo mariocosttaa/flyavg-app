@@ -16,6 +16,11 @@ The repository ships two separate builds that share one design system:
 Admin code never reaches the portal bundle: ESLint blocks cross-entry imports and
 `npm run build` fails if anything reachable from `index.html` contains admin modules.
 
+A third entry, the design system catalog (`catalog/index.html`, `src/catalog/`, served at
+`/catalog/`), is built only when `VITE_APP_ENV` is `development` or `staging`; the build check
+fails if it reaches a production build or the portal and admin bundles. In `npm run dev` it is
+always available at http://localhost:5173/catalog/.
+
 ## Requirements
 
 - Node.js 22 (`.nvmrc`; `nvm use`) and npm
@@ -83,18 +88,20 @@ Run it before committing whenever the API contract changes.
 
 ```text
 ├── index.html, admin/index.html   HTML entries (no inline scripts)
+├── catalog/index.html             Catalog entry (development and staging builds only)
 ├── public/                        Static files copied as-is (favicon)
 ├── src/
 │   ├── portal/                    main.tsx, routes.tsx, paths.ts, layouts/, pages/
 │   ├── admin/                     main.tsx, routes.tsx, paths.ts, layouts/, pages/
+│   ├── catalog/                   main.tsx, pages/Tokens/ (token catalog)
 │   ├── shared/
-│   │   ├── design-system/         tokens/, themes/, components/, fonts/, theme.ts, index.css
+│   │   ├── design-system/         tokens/, themes/, components/, fonts/, lib/, theme.ts, index.css
 │   │   ├── i18n/                  config.ts, typed keys, locales/{pt,en}/<namespace>.json
 │   │   ├── api/                   Generated OpenAPI client, ApiError, query hooks
 │   │   ├── auth/, hooks/, lib/    Session types, generic hooks, helpers (env validation)
 │   └── test/                      Vitest setup, MSW server and handlers, render helper
 ├── e2e/tests/                     Playwright specs
-├── scripts/                       Build checks (bundle boundaries)
+├── scripts/                       Build checks (bundle boundaries, catalog environments)
 ├── deploy/                        nginx config and security headers
 └── Dockerfile                     Node 22 build → nginx alpine
 ```
@@ -109,6 +116,7 @@ code, `git-workflow` for branches and commits).
   removed, so utilities only map to tokens.
 - `<html data-airline="taag|world">` switches the airline theme (no attribute = AVAGroup);
   `<html data-theme="light|dark">` is always set at boot from the stored preference or the OS.
+  A unit test checks WCAG AA contrast for every token pair in the six combinations.
 - Every visible string goes through i18next. Locales: `pt` (default, pt-PT) and `en`.
   Detection order: stored choice (`flyavg.language`) → browser languages → `pt`.
 
