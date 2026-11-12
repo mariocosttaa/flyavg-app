@@ -5,6 +5,7 @@ import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher';
 import { LoadingScreen } from '@/shared/components/LoadingScreen';
 import { RouteErrorBoundary } from '@/shared/components/RouteErrorBoundary';
 import { ScrollToTop } from '@/shared/components/ScrollToTop';
+import { PORTAL_HOME_PATH } from '@/shared/lib/portal-paths';
 import { PATHS } from '@/admin/paths';
 
 // Frame only: the admin navigation arrives with the admin layout task.
@@ -19,7 +20,7 @@ export default function AdminLayout() {
         <div className="flex items-center gap-4">
           <LanguageSwitcher />
           {/* The portal is another entry: a plain link loads it, the router cannot. */}
-          <a href="/" className="text-sm font-medium">
+          <a href={PORTAL_HOME_PATH} className="text-sm font-medium">
             {t('common:navigation.backToPortal')}
           </a>
         </div>

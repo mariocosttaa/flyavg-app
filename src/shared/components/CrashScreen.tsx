@@ -23,7 +23,7 @@ export function CrashScreen() {
           {t('crash.reload')}
         </button>
         <Link to={homePath} className="rounded-md border border-border px-4 py-2 font-medium">
-          {t('notFound.backHome')}
+          {t('navigation.backHome')}
         </Link>
       </div>
     </section>

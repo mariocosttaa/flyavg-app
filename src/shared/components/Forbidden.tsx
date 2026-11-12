@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { useAuthConfig } from '@/shared/auth/auth-config';
 import { usePageTitle } from '@/shared/hooks/use-page-title';
+import { PORTAL_HOME_PATH } from '@/shared/lib/portal-paths';
 
 const ACTION_CLASSES = 'rounded-md bg-accent px-4 py-2 font-medium text-accent-fg';
 
@@ -22,12 +23,12 @@ export function Forbidden({ hasPortalExit = false }: ForbiddenProps) {
       <h1 className="text-3xl">{t('forbidden.title')}</h1>
       <p className="text-fg-muted">{t('forbidden.body')}</p>
       {hasPortalExit ? (
-        <a href="/" className={ACTION_CLASSES}>
+        <a href={PORTAL_HOME_PATH} className={ACTION_CLASSES}>
           {t('navigation.backToPortal')}
         </a>
       ) : (
         <Link to={homePath} className={ACTION_CLASSES}>
-          {t('notFound.backHome')}
+          {t('navigation.backHome')}
         </Link>
       )}
     </section>

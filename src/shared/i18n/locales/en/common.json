@@ -15,6 +15,7 @@
   "navigation": {
     "main": "Main navigation",
     "home": "Home",
+    "backHome": "Back to home",
     "signIn": "Sign in",
     "pilotArea": "Pilot area",
     "backToPortal": "Back to the portal"

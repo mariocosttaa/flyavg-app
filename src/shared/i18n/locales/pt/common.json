@@ -15,6 +15,7 @@
   "navigation": {
     "main": "Navegação principal",
     "home": "Início",
+    "backHome": "Voltar ao início",
     "signIn": "Iniciar sessão",
     "pilotArea": "Área do piloto",
     "backToPortal": "Voltar ao portal"
