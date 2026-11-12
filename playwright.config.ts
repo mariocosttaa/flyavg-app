@@ -19,7 +19,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-  // Decision pending (AVG-6): add WebKit and a mobile viewport once CI installs the browsers.
+  // Chromium only until CI installs the WebKit and mobile browsers.
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], channel } }],
   webServer: externalBaseUrl
     ? undefined

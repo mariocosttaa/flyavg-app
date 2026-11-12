@@ -9,7 +9,7 @@ export default function NotFound() {
   usePageTitle(t('notFound.title'));
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 p-16 text-center">
+    <section className="flex flex-1 flex-col items-center justify-center gap-4 p-16 text-center">
       <h1 className="text-3xl">{t('notFound.title')}</h1>
       <p className="text-fg-muted">{t('notFound.body')}</p>
       <Link

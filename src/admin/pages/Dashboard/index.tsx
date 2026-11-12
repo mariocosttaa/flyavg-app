@@ -7,7 +7,7 @@ export default function Dashboard() {
   usePageTitle(t('dashboard.title'));
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 p-16 text-center">
+    <section className="flex flex-1 flex-col items-center justify-center gap-4 p-16 text-center">
       <h1 className="text-3xl">{t('dashboard.title')}</h1>
       <p className="text-lg text-fg-muted">{t('dashboard.status')}</p>
     </section>

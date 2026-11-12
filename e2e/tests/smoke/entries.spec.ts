@@ -26,20 +26,17 @@ test('portal home renders', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test('admin entry renders its dashboard', async ({ page }) => {
+test('admin entry boots and sends a guest to the portal login', async ({ page }) => {
   const errors = collectConsoleErrors(page);
 
   await page.goto('/admin/');
-  await expect(
-    page.getByRole('heading', { level: 1, name: 'Painel de administração' }),
-  ).toBeVisible();
-  await expect(page).toHaveTitle(/FlyAVG/);
+  await expect(page).toHaveURL('/login?redirect=/admin/');
+  await expect(page.getByRole('heading', { level: 1, name: 'Iniciar sessão' })).toBeVisible();
   expect(errors).toEqual([]);
 });
 
 test('admin deep link is served by the admin entry', async ({ page }) => {
-  // An unknown admin path must boot admin (its NotFound inside the admin frame), not the portal.
-  await page.goto('/admin/does-not-exist');
-  await expect(page.getByText('FlyAVG Admin')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Página não encontrada' })).toBeVisible();
+  // The portal would show its NotFound; only the admin entry sends the path to the login.
+  await page.goto('/admin/pilots?page=2');
+  await expect(page).toHaveURL('/login?redirect=/admin/pilots%3Fpage%3D2');
 });

@@ -7,7 +7,7 @@ export default function Home() {
   usePageTitle(t('home.title'));
 
   return (
-    <section className="flex min-h-dvh flex-col items-center justify-center gap-4 p-6 text-center">
+    <section className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
       <h1 className="text-display">{t('home.title')}</h1>
       <p className="text-lg text-fg-muted">{t('home.status')}</p>
     </section>
