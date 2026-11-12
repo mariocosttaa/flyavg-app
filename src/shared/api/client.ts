@@ -1,18 +1,21 @@
+import createClient from 'openapi-fetch';
 import { env } from '@/shared/lib/env';
-import { toApiError } from './errors';
+import { ApiError, NETWORK_ERROR_CODE } from './errors';
+import type { paths } from './generated/schema';
 
-// TODO(AVG-7): replace with openapi-fetch over types generated from the flyavg-api OpenAPI
-// document (src/shared/api/generated), wrapped in TanStack Query hooks per domain.
-export async function apiFetch<T>(path: `/${string}`, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${env.VITE_API_URL}${path}`, {
-    ...init,
-    credentials: 'include',
-    headers: { Accept: 'application/json', ...init?.headers },
-  });
+// Looks up globalThis.fetch on every call: openapi-fetch keeps the function it was given, and
+// MSW in tests (and the session's auth fetch later) replace the global after this module loads.
+async function fetchFromApi(request: Request): Promise<Response> {
+  try {
+    return await globalThis.fetch(request);
+  } catch (error) {
+    // A cancelled query is not a network failure: let TanStack Query see the abort.
+    if (request.signal.aborted) {
+      throw error;
+    }
 
-  if (!response.ok) {
-    throw await toApiError(response);
+    throw new ApiError(0, NETWORK_ERROR_CODE);
   }
-
-  return (await response.json()) as T;
 }
+
+export const api = createClient<paths>({ baseUrl: env.VITE_API_URL, fetch: fetchFromApi });
