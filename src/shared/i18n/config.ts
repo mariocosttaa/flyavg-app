@@ -58,6 +58,8 @@ function syncHtmlLang(language: string): void {
 }
 
 export async function initI18n(language: Language = detectLanguage()): Promise<void> {
+  // off() first: tests and hot reload may run init again, and the listener must stay single.
+  i18n.off('languageChanged', syncHtmlLang);
   i18n.on('languageChanged', syncHtmlLang);
   await i18n.use(initReactI18next).init({
     lng: language,
